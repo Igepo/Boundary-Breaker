@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using static GridTileBase;
 using Random = System.Random;
 
 public class GridManager : MonoBehaviour
@@ -29,6 +30,8 @@ public class GridManager : MonoBehaviour
 
     private Bounds bounds = new();
     private bool boundsInitialized = false;
+
+    private Dictionary<Vector3, GridTileBase> _tileDictionary = new Dictionary<Vector3, GridTileBase>();
 
     public List<GridTileBase> TilesList { get; private set; } = new List<GridTileBase>();
     private void OnEnable()
@@ -64,12 +67,6 @@ public class GridManager : MonoBehaviour
         _grid = GetComponent<Grid>();
         _cam = Camera.main;
         _currentGap = _gap;
-    }
-
-    private void Start()
-    {
-
-        //SetCamera(mapBounds);
     }
 
     private void OnValidate() => _requiresGeneration = true;
@@ -149,6 +146,7 @@ public class GridManager : MonoBehaviour
             spawned.Init(position, tileType);
             //spawned.name = $"{position.x}:{position.y}";
             mapBounds.Encapsulate(spawned.GetComponent<Renderer>().bounds);
+            _tileDictionary[position] = spawned;
             FogOfWarManager.Instance.RegisterTile(spawned);
         }
 
@@ -166,22 +164,60 @@ public class GridManager : MonoBehaviour
 
         _cameraPositionTarget = bounds.center + Vector3.back;
         _cameraSizeTarget = Mathf.Max(horizontal, vertical) * 0.5f;
-
-        //Debug.Log($"bounds : {bounds}");
-        _toto = bounds;
     }
-    Bounds _toto;
-    private void OnDrawGizmos()
+
+    public List<GridTileBase> GetAdjacentTiles(Vector2 coord, RevealType revealType)
     {
-        //Gizmos.DrawSphere(_toto.center, 1);
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(_toto.center, _toto.size);
+        List<GridTileBase> adjacentTiles = new List<GridTileBase>();
 
-        foreach ( var item in TilesList)
+        Vector2[] crossOffsets = new Vector2[]
         {
-            Debug.Log($"tile List : {TilesList} ");
+            new Vector3(0.5f, -0.25f),  // Right (might correspond to bottom-right in isometric)
+            new Vector3(-0.5f, 0.25f), // Left (might correspond to top-left in isometric)
+            new Vector3(0.5f, 0.25f),  // Up (might correspond to top-right in isometric)
+            new Vector3(-0.5f, -0.25f)  // Down (might correspond to bottom-left in isometric)
+        };
 
+        Vector2[] squareOffsets = new Vector2[]
+        {
+            new Vector3(0.5f, -0.25f),  // Right (might correspond to bottom-right in isometric)
+            new Vector3(-0.5f, 0.25f), // Left (might correspond to top-left in isometric)
+            new Vector3(0.5f, 0.25f),  // Up (might correspond to top-right in isometric)
+            new Vector3(-0.5f, -0.25f),  // Down (might correspond to bottom-left in isometric)
+
+            new Vector3(1f, 0f), // Up-Right
+            new Vector3(0f, -0.5f), // Down-Right
+            new Vector3(0f, 0.5f), // Up-Left
+            new Vector3(-1f, 0f) // Down-Left
+        };
+
+        Vector2[] offsets;
+        if (revealType == RevealType.Cross)
+        {
+            offsets = crossOffsets;
         }
+        else if (revealType == RevealType.Square)
+        {
+            offsets = squareOffsets;
+        }
+        else
+            return adjacentTiles; // Type None
+
+        foreach (var offset in offsets)
+        {
+            Vector3 neighborCoord = coord + offset;
+
+            foreach (var tileEntry in _tileDictionary)
+            {
+                Vector2 tilePosition = new Vector2(tileEntry.Key.x, tileEntry.Key.y);
+                if (Vector2.Distance(tilePosition, neighborCoord) < 0.1f)
+                {
+                    adjacentTiles.Add(tileEntry.Value);
+                }
+            }
+        }
+
+        return adjacentTiles;
     }
 }
 

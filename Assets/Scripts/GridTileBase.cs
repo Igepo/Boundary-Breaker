@@ -26,9 +26,9 @@ public class GridTileBase : MonoBehaviour
     }
     public enum RevealType
     {
-        none,
-        cross,
-        square
+        None,
+        Cross,
+        Square
     }
 
     public enum TileType

@@ -5,10 +5,14 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private GameObject _prefabToInstantiate;
+    [SerializeField] private GameObject _castlePrefab;
+
+    [SerializeField] private List<GameObject> _UI = new();
 
     private GameObject _instantiatedFloatingObject;
     private Camera _mainCamera;
+    private bool isCastlePut = false;
+
     private void OnEnable()
     {
         // S'abonner à l'événement de révélation des tuiles
@@ -26,7 +30,7 @@ public class GameManager : MonoBehaviour
         // Condition qui est seulement appelé au démarrage
         if (_instantiatedFloatingObject != null)
         {
-            GameObject newTile = Instantiate(_prefabToInstantiate, tile.transform.position, Quaternion.identity, tile.transform.parent);
+            GameObject newTile = Instantiate(_castlePrefab, tile.transform.position, Quaternion.identity, tile.transform.parent);
 
             Destroy(tile.gameObject);
             Destroy(_instantiatedFloatingObject);
@@ -34,33 +38,48 @@ public class GameManager : MonoBehaviour
 
             PolygonCollider2D newTileCollider = newTile.GetComponentInChildren<PolygonCollider2D>();
             GridTileBase newTileGridTileBase = newTile.GetComponentInChildren<GridTileBase>();
-
+            var newTileGridTileBaseRevealType = newTileGridTileBase.TileRevealType;
             if (newTileCollider != null)
             {
                 newTileCollider.enabled = true;
             }
             if (newTileGridTileBase != null)
             {
-                Debug.Log($"newTile revealtype : {newTileGridTileBase.TileRevealType}");
+                // Assuming the tile's position is a `Vector3`:
+                var coord = new Vector2(tile.transform.position.x, tile.transform.position.y);
+                Debug.Log("coord " + coord);
+
+                Debug.Log("_tileRevealType " + newTileGridTileBase.TileRevealType);
+                var gridManager = FindObjectOfType<GridManager>();
+                var adjacentTiles = gridManager.GetAdjacentTiles(coord, newTileGridTileBase.TileRevealType);
+
+                foreach (var adjacentTile in adjacentTiles)
+                {
+                    adjacentTile.SetReveal(true);
+                }
             }
+            isCastlePut = true;
         }
     }
     void Start()
     {
         _mainCamera = Camera.main;
-        PolygonCollider2D prefabCollider = _prefabToInstantiate.GetComponentInChildren<PolygonCollider2D>();
+        OnBegin();
+    }
+    void OnBegin()
+    {
+        PolygonCollider2D prefabCollider = _castlePrefab.GetComponentInChildren<PolygonCollider2D>();
 
         if (prefabCollider != null)
         {
             prefabCollider.enabled = false;
         }
 
-        if (_prefabToInstantiate != null)
+        if (_castlePrefab != null)
         {
-            _instantiatedFloatingObject = Instantiate(_prefabToInstantiate);
+            _instantiatedFloatingObject = Instantiate(_castlePrefab);
         }
     }
-
     void Update()
     {
         if (_instantiatedFloatingObject != null)
