@@ -1,47 +1,207 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
+using Random = System.Random;
 
 public class GridManager : MonoBehaviour
 {
-    [SerializeField] private int _width, _height;
+    [SerializeField] private Vector2Int _size;
+    [SerializeField] private Vector2 _gap;
+    [SerializeField, Range(0, 0.8f)] private float _skipAmount = 0.1f;
+    [SerializeField, Range(0, 1)] private float _forestAmount = 0.2f;
+    [SerializeField, Range(0, 1)] private float _mountainAmount = 0.1f;
+    [SerializeField] private GridType _gridType;
+    [SerializeField] private ScriptableGridConfig[] _configs;
 
-    [SerializeField] private Tile _tilePrefab;
+    private bool _requiresGeneration = true;
+    private Camera _cam;
+    private Grid _grid;
 
-    [SerializeField] private Transform _cam;
+    private Vector3 _cameraPositionTarget;
+    private float _cameraSizeTarget;
+    private Vector3 _moveVel;
+    private float _cameraSizeVel;
 
-    private Dictionary<Vector2, Tile> _tiles;
+    private Vector2 _currentGap;
+    private Vector2 _gapVel;
 
-    void Start()
+    private Bounds bounds = new();
+    private bool boundsInitialized = false;
+
+    public List<GridTileBase> TilesList { get; private set; } = new List<GridTileBase>();
+    private void OnEnable()
     {
-        GenerateGrid();
+        // S'abonner à l'événement de révélation des tuiles
+        GridTileBase.OnTileRevealed += HandleTileRevealed;
     }
 
-    void GenerateGrid()
+    private void OnDisable()
     {
-        _tiles = new Dictionary<Vector2, Tile>();
-        for (int x = 0; x < _width; x++)
+        // Se désabonner de l'événement lorsqu'il n'est plus nécessaire
+        GridTileBase.OnTileRevealed -= HandleTileRevealed;
+    }
+
+    private void HandleTileRevealed(GridTileBase tile)
+    {
+        var tileRendererBound = tile.GetComponent<Renderer>().bounds;
+        if (!boundsInitialized)
         {
-            for (int y = 0; y < _height; y++)
+            bounds = new Bounds(tileRendererBound.center, tileRendererBound.size);
+            boundsInitialized = true;
+        }
+        else
+        {
+            bounds.Encapsulate(tileRendererBound);
+        }
+
+        SetCamera(bounds);
+    }
+
+    private void Awake()
+    {
+        _grid = GetComponent<Grid>();
+        _cam = Camera.main;
+        _currentGap = _gap;
+    }
+
+    private void Start()
+    {
+
+        //SetCamera(mapBounds);
+    }
+
+    private void OnValidate() => _requiresGeneration = true;
+
+    private void LateUpdate()
+    {
+        if (Vector2.Distance(_currentGap, _gap) > 0.01f)
+        {
+            _currentGap = Vector2.SmoothDamp(_currentGap, _gap, ref _gapVel, 0.1f);
+            _requiresGeneration = true;
+        }
+
+        if (_requiresGeneration) Generate();
+
+        _cam.transform.position = Vector3.SmoothDamp(_cam.transform.position, _cameraPositionTarget, ref _moveVel, 0.5f);
+        _cam.orthographicSize = Mathf.SmoothDamp(_cam.orthographicSize, _cameraSizeTarget, ref _cameraSizeVel, 0.5f);
+    }
+
+    private void Generate()
+    {
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        var config = _configs.First(c => c.Type == _gridType);
+
+        _grid.cellLayout = config.Layout;
+        _grid.cellSize = config.CellSize;
+        //Debug.Log($"cellLayout : {_grid.cellLayout}, cellSize : {_grid.cellSize}");
+        if (_grid.cellLayout != GridLayout.CellLayout.Hexagon) _grid.cellGap = _currentGap;
+        _grid.cellSwizzle = config.GridSwizzle;
+
+        var coordinates = new List<Vector3Int>();
+
+        for (int x = 0; x < _size.x; x++)
+        {
+            for (int y = 0; y < _size.y; y++)
             {
-                var spawnedTile = Instantiate(_tilePrefab, new Vector3(x, y), Quaternion.identity);
-                spawnedTile.name = $"Tile {x} {y}";
-
-                var isOffset = (x % 2 == 0 && y % 2 != 0) || (x % 2 != 0 && y % 2 == 0);
-                spawnedTile.Init(isOffset);
-
-
-                _tiles[new Vector2(x, y)] = spawnedTile;
+                coordinates.Add(new Vector3Int(x, y));
             }
         }
 
-        _cam.transform.position = new Vector3((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f, -10);
+        var mapBounds = new Bounds();
+        var skipCount = Mathf.FloorToInt(coordinates.Count * _skipAmount);
+        var forestCount = Mathf.FloorToInt(coordinates.Count * _forestAmount);
+        var mountainCount = Mathf.FloorToInt(coordinates.Count * _mountainAmount);
+        var forestIndex = 0;
+        var mountainIndex = 0;
+        var rand = new Random(420);
+
+        foreach (var coordinate in coordinates.OrderBy(t => rand.Next()).Take(coordinates.Count - skipCount))
+        {
+            var isForest = forestIndex++ < forestCount;
+            var isMountain = !isForest && mountainIndex++ < mountainCount;
+            GridTileBase prefab;
+            GridTileBase.TileType tileType;
+
+            if (isForest)
+            {
+                prefab = config.ForestPrefab;
+                tileType = GridTileBase.TileType.Forest;
+            }
+            else if (isMountain)
+            {
+                prefab = config.MountainPrefab;
+                tileType = GridTileBase.TileType.Mountain;
+            }
+            else
+            {
+                prefab = config.PlainPrefab;
+                tileType = GridTileBase.TileType.Plain;
+            }
+
+            var position = _grid.GetCellCenterWorld(coordinate);
+            var spawned = Instantiate(prefab, position, Quaternion.identity, transform);
+            spawned.Init(position, tileType);
+            //spawned.name = $"{position.x}:{position.y}";
+            mapBounds.Encapsulate(spawned.GetComponent<Renderer>().bounds);
+            FogOfWarManager.Instance.RegisterTile(spawned);
+        }
+
+        SetCamera(mapBounds);
+
+        _requiresGeneration = false;
     }
 
-    public Tile GetTileAtPosition(Vector2 pos)
+    private void SetCamera(Bounds bounds)
     {
-        if (_tiles.TryGetValue(pos, out var tile)) return tile;
-        return null;
+        bounds.Expand(2);
+
+        var vertical = bounds.size.y;
+        var horizontal = bounds.size.x * _cam.pixelHeight / _cam.pixelWidth;
+
+        _cameraPositionTarget = bounds.center + Vector3.back;
+        _cameraSizeTarget = Mathf.Max(horizontal, vertical) * 0.5f;
+
+        //Debug.Log($"bounds : {bounds}");
+        _toto = bounds;
     }
+    Bounds _toto;
+    private void OnDrawGizmos()
+    {
+        //Gizmos.DrawSphere(_toto.center, 1);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(_toto.center, _toto.size);
+
+        foreach ( var item in TilesList)
+        {
+            Debug.Log($"tile List : {TilesList} ");
+
+        }
+    }
+}
+
+
+[CreateAssetMenu]
+public class ScriptableGridConfig : ScriptableObject
+{
+    public GridType Type;
+    [Space(10)]
+    public GridLayout.CellLayout Layout;
+    public GridTileBase PlainPrefab, ForestPrefab, MountainPrefab;
+    public Vector3 CellSize;
+    public GridLayout.CellSwizzle GridSwizzle;
+}
+
+[Serializable]
+public enum GridType
+{
+    Rectangle,
+    Isometric,
+    HexagonPointy,
+    HexagonFlat
 }

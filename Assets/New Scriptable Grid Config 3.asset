@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ScriptableGridConfig
   Type: 1
   Layout: 2
-  GrassPrefab: {fileID: 5368970906082762163, guid: 2ab76a0f027c6c14fa0ff31722bc54e9, type: 3}
+  PlainPrefab: {fileID: 5368970906082762163, guid: 2ab76a0f027c6c14fa0ff31722bc54e9, type: 3}
   ForestPrefab: {fileID: 4403235965020708356, guid: 71848b185fef16a47935d125d34d036f, type: 3}
+  MountainPrefab: {fileID: 5368970906082762163, guid: fc0daa162f00bfc4ebc2cb819404149b, type: 3}
   CellSize: {x: 1, y: 0.5, z: 1}
   GridSwizzle: 0
