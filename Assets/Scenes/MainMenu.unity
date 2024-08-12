@@ -443,7 +443,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2, y: 125}
+  m_AnchoredPosition: {x: 2, y: 298}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &259678052
@@ -806,6 +806,7 @@ GameObject:
   - component: {fileID: 470000121}
   - component: {fileID: 470000120}
   - component: {fileID: 470000119}
+  - component: {fileID: 470000122}
   m_Layer: 5
   m_Name: Play Button
   m_TagString: Untagged
@@ -830,8 +831,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -2, y: -32}
-  m_SizeDelta: {x: 207.1912, y: -317.9079}
+  m_AnchoredPosition: {x: 0, y: 89}
+  m_SizeDelta: {x: 463.6773, y: -946.3839}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &470000119
 MonoBehaviour:
@@ -876,7 +877,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 470000120}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 470000122}
+        m_TargetAssemblyTypeName: PlayButton, Assembly-CSharp
+        m_MethodName: OnPlayButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &470000120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -915,6 +928,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 470000117}
   m_CullTransparentMesh: 1
+--- !u!114 &470000122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 470000117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f9705afdee7554e83af48b47b75d58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1134,8 +1159,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 1, y: -115}
-  m_SizeDelta: {x: 195.7489, y: -323.7344}
+  m_AnchoredPosition: {x: 0, y: -134}
+  m_SizeDelta: {x: 447.1392, y: -945.4159}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &834220893
 MonoBehaviour:

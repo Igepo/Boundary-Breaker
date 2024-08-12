@@ -2,13 +2,23 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class GridTileBase : MonoBehaviour
 {
     [SerializeField] private GameObject _highlight;
     [SerializeField] private Sprite _HiddenSprite;
 
+    
+
+    [SerializeField] private int _woodProduction = 0;
+    [SerializeField] private int _stoneProduction = 0;
+
+    [SerializeField] private int _woodCost = 0;
+    [SerializeField] private int _stoneCost = 0;
+    
     [SerializeField] private BuildingType _buildingType;
+    public BuildingType BuildingTypeGetter => _buildingType;
     public enum BuildingType
     {
         none,
@@ -39,6 +49,7 @@ public class GridTileBase : MonoBehaviour
         HexagonFlat
     }
     private TileType _tileType;
+    public TileType TileTypeGetter => _tileType;
 
 
     private Color _revealedColor = Color.white;
@@ -46,11 +57,13 @@ public class GridTileBase : MonoBehaviour
 
     private SpriteRenderer _spriteRenderer;
     private bool _isReveal;
+    public bool IsReveal => _isReveal;
 
     private Sprite _initialSprite;
 
     public static event Action<GridTileBase> OnTileRevealed;
     public static event Action<GridTileBase> OnTileClicked;
+    public static event Action<GridTileBase> OnTileHover;
     public void Init(Vector3 coordinate, TileType tileType)
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -93,10 +106,25 @@ public class GridTileBase : MonoBehaviour
         }
         _spriteRenderer.color = _isReveal ? _revealedColor : _hiddenColor;
     }
+    public (int woodCost, int stoneCost) GetCosts()
+    {
+        return (_woodCost, _stoneCost);
+    }
+
+    public int GetWoodProduction()
+    {
+        return _woodProduction;
+    }
+
+    public int GetStoneProduction()
+    {
+        return _stoneProduction;
+    }
 
     void OnMouseEnter()
     {
         _highlight.SetActive(true);
+        OnTileHover?.Invoke(this);
     }
 
     void OnMouseExit()

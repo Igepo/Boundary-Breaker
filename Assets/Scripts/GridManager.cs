@@ -34,6 +34,9 @@ public class GridManager : MonoBehaviour
     private Dictionary<Vector3, GridTileBase> _tileDictionary = new Dictionary<Vector3, GridTileBase>();
 
     public List<GridTileBase> TilesList { get; private set; } = new List<GridTileBase>();
+    public static event Action OnTilesInitialized;
+
+
     private void OnEnable()
     {
         // S'abonner à l'événement de révélation des tuiles
@@ -48,6 +51,11 @@ public class GridManager : MonoBehaviour
 
     private void HandleTileRevealed(GridTileBase tile)
     {
+        if (tile == null)
+        {
+            return;
+        }
+
         var tileRendererBound = tile.GetComponent<Renderer>().bounds;
         if (!boundsInitialized)
         {
@@ -144,7 +152,6 @@ public class GridManager : MonoBehaviour
             var position = _grid.GetCellCenterWorld(coordinate);
             var spawned = Instantiate(prefab, position, Quaternion.identity, transform);
             spawned.Init(position, tileType);
-            //spawned.name = $"{position.x}:{position.y}";
             mapBounds.Encapsulate(spawned.GetComponent<Renderer>().bounds);
             _tileDictionary[position] = spawned;
             FogOfWarManager.Instance.RegisterTile(spawned);
@@ -152,9 +159,15 @@ public class GridManager : MonoBehaviour
 
         SetCamera(mapBounds);
 
+        OnTilesInitialized?.Invoke();
+
         _requiresGeneration = false;
     }
 
+    public int GetTotalTiles()
+    {
+        return _tileDictionary.Count;
+    }
     private void SetCamera(Bounds bounds)
     {
         bounds.Expand(2);
