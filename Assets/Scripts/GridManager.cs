@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using static GridTileBase;
 using Random = System.Random;
 
@@ -66,7 +67,7 @@ public class GridManager : MonoBehaviour
         {
             bounds.Encapsulate(tileRendererBound);
         }
-
+        Debug.Log("bounds " + bounds);
         SetCamera(bounds);
     }
 
@@ -124,7 +125,7 @@ public class GridManager : MonoBehaviour
         var mountainCount = Mathf.FloorToInt(coordinates.Count * _mountainAmount);
         var forestIndex = 0;
         var mountainIndex = 0;
-        var rand = new Random(420);
+        var rand = new Random();
 
         foreach (var coordinate in coordinates.OrderBy(t => rand.Next()).Take(coordinates.Count - skipCount))
         {
@@ -152,10 +153,19 @@ public class GridManager : MonoBehaviour
             var position = _grid.GetCellCenterWorld(coordinate);
             var spawned = Instantiate(prefab, position, Quaternion.identity, transform);
             spawned.Init(position, tileType);
+
+            var sortingGroup = spawned.GetComponent<SortingGroup>();
+            if (sortingGroup == null)
+            {
+                sortingGroup = spawned.gameObject.AddComponent<SortingGroup>();
+            }
+            sortingGroup.sortingOrder = -(int)(position.y * 100);
+
             mapBounds.Encapsulate(spawned.GetComponent<Renderer>().bounds);
             _tileDictionary[position] = spawned;
             FogOfWarManager.Instance.RegisterTile(spawned);
         }
+        Debug.Log("mapBounds " + mapBounds);
 
         SetCamera(mapBounds);
 
@@ -174,9 +184,9 @@ public class GridManager : MonoBehaviour
 
         var vertical = bounds.size.y;
         var horizontal = bounds.size.x * _cam.pixelHeight / _cam.pixelWidth;
-
         _cameraPositionTarget = bounds.center + Vector3.back;
         _cameraSizeTarget = Mathf.Max(horizontal, vertical) * 0.5f;
+        Debug.Log("_cameraPositionTarget " + _cameraPositionTarget);
     }
 
     public List<GridTileBase> GetAdjacentTiles(Vector2 coord, RevealType revealType)
@@ -187,6 +197,9 @@ public class GridManager : MonoBehaviour
         {
             new Vector3(0.5f, -0.25f),  // Right (might correspond to bottom-right in isometric)
             new Vector3(-0.5f, 0.25f), // Left (might correspond to top-left in isometric)
+
+            new Vector3(0f, 0f), // Center
+
             new Vector3(0.5f, 0.25f),  // Up (might correspond to top-right in isometric)
             new Vector3(-0.5f, -0.25f)  // Down (might correspond to bottom-left in isometric)
         };
@@ -197,6 +210,8 @@ public class GridManager : MonoBehaviour
             new Vector3(-0.5f, 0.25f), // Left (might correspond to top-left in isometric)
             new Vector3(0.5f, 0.25f),  // Up (might correspond to top-right in isometric)
             new Vector3(-0.5f, -0.25f),  // Down (might correspond to bottom-left in isometric)
+
+            new Vector3(0f, 0f), // Center
 
             new Vector3(1f, 0f), // Up-Right
             new Vector3(0f, -0.5f), // Down-Right

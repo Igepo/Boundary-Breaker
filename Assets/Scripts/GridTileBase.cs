@@ -13,9 +13,11 @@ public class GridTileBase : MonoBehaviour
 
     [SerializeField] private int _woodProduction = 0;
     [SerializeField] private int _stoneProduction = 0;
+    [SerializeField] private int _villagerProduction = 0;
 
     [SerializeField] private int _woodCost = 0;
     [SerializeField] private int _stoneCost = 0;
+    [SerializeField] private int _villagerCost = 0;
     
     [SerializeField] private BuildingType _buildingType;
     public BuildingType BuildingTypeGetter => _buildingType;
@@ -106,9 +108,14 @@ public class GridTileBase : MonoBehaviour
         }
         _spriteRenderer.color = _isReveal ? _revealedColor : _hiddenColor;
     }
-    public (int woodCost, int stoneCost) GetCosts()
+    public (int woodCost, int stoneCost, int villagerCost) GetCosts()
     {
-        return (_woodCost, _stoneCost);
+        return (_woodCost, _stoneCost, _villagerCost);
+    }
+
+    public int GetVillagerProduction()
+    {
+        return _villagerProduction;
     }
 
     public int GetWoodProduction()

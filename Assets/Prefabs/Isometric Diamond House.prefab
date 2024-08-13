@@ -101,11 +101,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _highlight: {fileID: 6718577502117030973}
   _HiddenSprite: {fileID: 3625043607559282579, guid: b2725da28c131fb409f0b9cd232a7904, type: 3}
-  _buildingType: 1
   _woodProduction: 0
   _stoneProduction: 0
+  _villagerProduction: 5
   _woodCost: 10
   _stoneCost: 10
+  _villagerCost: 0
+  _buildingType: 1
   _tileRevealType: 1
 --- !u!60 &1188881619718261314
 PolygonCollider2D:

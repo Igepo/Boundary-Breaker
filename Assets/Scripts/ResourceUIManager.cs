@@ -6,12 +6,14 @@ public class ResourceUIManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI woodText;
     [SerializeField] private TextMeshProUGUI stoneText;
+    [SerializeField] private TextMeshProUGUI villagerText;
 
     [SerializeField] private TextMeshProUGUI turnText;
 
-    // Valeurs de ressources
     private int playerWood;
     private int playerStone;
+    private int playerVillager;
+
     private int playerTurn;
 
     private void Start()
@@ -24,13 +26,17 @@ public class ResourceUIManager : MonoBehaviour
         playerWood = woodAmount;
         UpdateUI();
     }
-
+    
     public void SetStone(int stoneAmount)
     {
         playerStone = stoneAmount;
         UpdateUI();
     }
-
+    public void SetVillager(int villagerAmount)
+    {
+        playerVillager = villagerAmount;
+        UpdateUI();
+    }
     public void SetTurn(int currentTurn)
     {
         playerTurn = currentTurn;
@@ -47,6 +53,11 @@ public class ResourceUIManager : MonoBehaviour
         if (stoneText != null)
         {
             stoneText.text = "Stone: " + playerStone;
+        }
+
+        if (villagerText != null)
+        {
+            villagerText.text = "Villager: " + playerVillager;
         }
 
         if (turnText != null)

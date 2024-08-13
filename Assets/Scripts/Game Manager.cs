@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.UIElements;
 using static GridTileBase;
 
 public class GameManager : MonoBehaviour
@@ -18,9 +20,10 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private int playerWood = 100; // Exemples de ressources initiales
     [SerializeField] private int playerStone = 50;
+    [SerializeField] private int playerVillager = 0;
 
     private BuildingClick _selectedBuilding;
-    private (int woodCost, int stoneCost) _buildingCosts;
+    private (int woodCost, int stoneCost, int villagerCost) _buildingCosts;
 
     private List<GridTileBase> placedBuildings = new List<GridTileBase>();
 
@@ -56,10 +59,20 @@ public class GameManager : MonoBehaviour
 
         TurnManager.Instance.OnTurnStarted += OnTurnStarted;
     }
+    private void UpdateResourceUI()
+    {
+        // Assurez-vous que ResourceUIManager est correctement assigné
+        var resourceUIManager = FindObjectOfType<ResourceUIManager>();
+        if (resourceUIManager != null)
+        {
+            resourceUIManager.SetWood(playerWood);
+            resourceUIManager.SetStone(playerStone);
+            resourceUIManager.SetVillager(playerVillager);
+        }
+    }
     private void InitializeTotalTiles()
     {
         _totalTiles = _gridManager.GetTotalTiles();
-        Debug.Log("totalTiles " + _totalTiles);
         UpdateResourceUI();
     }
 
@@ -105,137 +118,155 @@ public class GameManager : MonoBehaviour
     {
         if (isCastlePlace)
         {
-            if (_instantiatedFloatingObject != null)
+            PrepareBuildingConstruction(building);
+        }
+    }
+
+    private void PrepareBuildingConstruction(BuildingClick building)
+    {
+        if (_instantiatedFloatingObject != null)
+        {
+            Destroy(_instantiatedFloatingObject);
+            _instantiatedFloatingObject = null;
+        }
+
+        var buildingGridTileBase = building.BuildingPrefab.GetComponentInChildren<GridTileBase>();
+        if (buildingGridTileBase != null)
+        {
+            _buildingCosts = buildingGridTileBase.GetCosts();
+            int woodCost = _buildingCosts.woodCost;
+            int stoneCost = _buildingCosts.stoneCost;
+            int villagerCost = _buildingCosts.villagerCost;
+
+            if (HasEnoughResources(woodCost, stoneCost, villagerCost))
             {
-                Destroy(_instantiatedFloatingObject);
-                _instantiatedFloatingObject = null;
-            }
-
-            var buildingGridTileBase = building.BuildingPrefab.GetComponentInChildren<GridTileBase>();
-            if (buildingGridTileBase != null)
-            {
-                _buildingCosts = buildingGridTileBase.GetCosts();
-                int woodCost = _buildingCosts.woodCost;
-                int stoneCost = _buildingCosts.stoneCost;
-
-                // Vérifier si le joueur a suffisamment de ressources
-                if (playerWood >= woodCost && playerStone >= stoneCost)
-                {
-                    // Autoriser la construction
-                    _selectedBuilding = building;
-                    PolygonCollider2D prefabCollider = building.BuildingPrefab.GetComponentInChildren<PolygonCollider2D>();
-                    if (prefabCollider != null)
-                    {
-                        prefabCollider.enabled = false;
-                    }
-
-                    if (building.BuildingPrefab != null)
-                    {
-                        _instantiatedFloatingObject = Instantiate(building.BuildingPrefab);
-                        _prefabToInstantiate = _instantiatedFloatingObject;
-                    }
-                }
-                else
-                {
-                    Debug.Log("Pas assez de ressources pour construire ce bâtiment.");
-                }
+                InstantiateBuildingPrefab(building);
             }
             else
             {
-                Debug.LogError("Le prefab du bâtiment ne contient pas de GridTileBase.");
+                Debug.Log("Pas assez de ressources pour construire ce bâtiment.");
             }
+        }
+        else
+        {
+            Debug.LogError("Le prefab du bâtiment ne contient pas de GridTileBase.");
+        }
+    }
+    private bool HasEnoughResources(int woodCost, int stoneCost, int villagerCost)
+    {
+        return playerWood >= woodCost && playerStone >= stoneCost && playerVillager >= villagerCost;
+    }
+    private void InstantiateBuildingPrefab(BuildingClick building)
+    {
+        _selectedBuilding = building;
+        PolygonCollider2D prefabCollider = building.BuildingPrefab.GetComponentInChildren<PolygonCollider2D>();
+        if (prefabCollider != null)
+        {
+            prefabCollider.enabled = false;
+        }
+
+        if (building.BuildingPrefab != null)
+        {
+            _instantiatedFloatingObject = Instantiate(building.BuildingPrefab);
+            _prefabToInstantiate = _instantiatedFloatingObject;
         }
     }
 
     private void HandleTileClicked(GridTileBase tile)
     {
-        if (_instantiatedFloatingObject != null)
+        if (_instantiatedFloatingObject == null)
+            return;
+
+        if (isCastlePlace && !isPlacable)
+            return;
+
+        PrepareFloatingObjectForPlacement();
+        GameObject newTile = PlaceBuildingOnTile(tile);
+
+        DeductPlayerResources();
+        GenerateResourcesOnPlacement(newTile);
+        ReplaceTile(tile, newTile);
+
+        if (!isCastlePlace)
         {
-            if (!isCastlePlace || (isCastlePlace && isPlacable))
-            {
-                var spriteRenderer = _instantiatedFloatingObject.GetComponentInChildren<SpriteRenderer>();
-                if (spriteRenderer != null)
-                {
-                    spriteRenderer.color = Color.white;
-                }
-
-                GameObject newTile = Instantiate(_prefabToInstantiate, tile.transform.position, Quaternion.identity, tile.transform.parent);
-
-                // Ajouter le nouveau bâtiment à la liste des bâtiments placés
-                GridTileBase newTileGridTileBase = newTile.GetComponentInChildren<GridTileBase>();
-                if (newTileGridTileBase != null)
-                {
-                    placedBuildings.Add(newTileGridTileBase);
-                }
-
-                // Réduire les ressources du joueur
-                if (_selectedBuilding != null)
-                {
-                    var buildingGridTileBase = _selectedBuilding.BuildingPrefab.GetComponentInChildren<GridTileBase>();
-                    if (buildingGridTileBase != null)
-                    {
-                        var costs = buildingGridTileBase.GetCosts();
-                        playerWood -= costs.woodCost;
-                        playerStone -= costs.stoneCost;
-                        UpdateResourceUI();
-                    }
-                }
-
-                // On remplace la tuile
-                Destroy(tile.gameObject);
-                Destroy(_instantiatedFloatingObject);
-                _instantiatedFloatingObject = null;
-
-                PolygonCollider2D newTileCollider = newTile.GetComponentInChildren<PolygonCollider2D>();
-            
-                if (newTileCollider != null)
-                {
-                    newTileCollider.enabled = true; // On reactive le collider
-                }
-
-                TileRevealed(tile, newTile);
-            }
-
-            if (!isCastlePlace)
-            {
-                isCastlePlace = true;
-            }
-
-
+            isCastlePlace = true;
         }
     }
 
-    private void CalculateResourceProduction()
+    private void PrepareFloatingObjectForPlacement()
     {
-        int totalWoodProduction = 0;
-        int totalStoneProduction = 0;
-
-        // Parcourir tous les bâtiments placés et calculer la production
-        foreach (var building in placedBuildings)
+        var spriteRenderer = _instantiatedFloatingObject.GetComponentInChildren<SpriteRenderer>();
+        if (spriteRenderer != null)
         {
-            totalWoodProduction += building.GetWoodProduction();
-            totalStoneProduction += building.GetStoneProduction();
+            spriteRenderer.color = Color.white;
+        }
+    }
+    private void GenerateResourcesOnPlacement(GameObject newTile)
+    {
+        var tile = newTile.GetComponentInChildren<GridTileBase>();
+        if (tile != null)
+        {
+            if (tile.BuildingTypeGetter == BuildingType.House)
+            {
+                playerVillager += tile.GetVillagerProduction();
+                UpdateResourceUI();
+            }
+        }
+    }
+    private GameObject PlaceBuildingOnTile(GridTileBase tile)
+    {
+        GameObject newTile = Instantiate(_prefabToInstantiate, tile.transform.position, Quaternion.identity, tile.transform.parent);
+
+        // Ajouter le nouveau bâtiment à la liste des bâtiments placés
+        GridTileBase newTileGridTileBase = newTile.GetComponentInChildren<GridTileBase>();
+        if (newTileGridTileBase != null)
+        {
+            placedBuildings.Add(newTileGridTileBase);
         }
 
-        // Ajouter la production totale aux ressources du joueur
-        playerWood += totalWoodProduction;
-        playerStone += totalStoneProduction;
-
-        // Mettre à jour l'interface utilisateur des ressources
-        UpdateResourceUI();
-
-        Debug.Log($"Production de fin de tour: +{totalWoodProduction} bois, +{totalStoneProduction} pierre");
+        return newTile;
     }
 
-    private void UpdateResourceUI()
+    private void DeductPlayerResources()
     {
-        // Assurez-vous que ResourceUIManager est correctement assigné
-        var resourceUIManager = FindObjectOfType<ResourceUIManager>();
-        if (resourceUIManager != null)
+        if (_selectedBuilding == null)
+            return;
+
+        var buildingGridTileBase = _selectedBuilding.BuildingPrefab.GetComponentInChildren<GridTileBase>();
+        if (buildingGridTileBase != null)
         {
-            resourceUIManager.SetWood(playerWood);
-            resourceUIManager.SetStone(playerStone);
+            var costs = buildingGridTileBase.GetCosts();
+            playerWood -= costs.woodCost;
+            playerStone -= costs.stoneCost;
+            playerVillager -= costs.villagerCost;
+            UpdateResourceUI();
         }
+    }
+    private void ReplaceTile(GridTileBase oldTile, GameObject newTile)
+    {
+        var oldTileSortingGroup = oldTile.GetComponent<SortingGroup>();
+        if (oldTileSortingGroup != null)
+        {
+            var oldTileSortingOrder = oldTileSortingGroup.sortingOrder;
+            var sortingGroup = newTile.GetComponent<SortingGroup>();
+            if (sortingGroup == null)
+            {
+                sortingGroup = newTile.gameObject.AddComponent<SortingGroup>();
+            }
+            sortingGroup.sortingOrder = oldTileSortingOrder;
+        }
+
+        Destroy(oldTile.gameObject);
+        Destroy(_instantiatedFloatingObject);
+        _instantiatedFloatingObject = null;
+
+        PolygonCollider2D newTileCollider = newTile.GetComponentInChildren<PolygonCollider2D>();
+        if (newTileCollider != null)
+        {
+            newTileCollider.enabled = true; // On réactive le collider
+        }
+
+        TileRevealed(oldTile, newTile);
     }
 
     void TileRevealed(GridTileBase tile, GameObject newTile)
@@ -259,8 +290,6 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-
-        Debug.Log("_revealedTiles " + _revealedTiles);
         CheckForGameEnd();
     }
     private void CheckForGameEnd()
@@ -286,7 +315,6 @@ public class GameManager : MonoBehaviour
     {
         _mainCamera = Camera.main;
         endGameUI.SetActive(false);
-        Debug.Log("Start");
         OnBegin();
         UpdateResourceUI();
     }
@@ -313,7 +341,7 @@ public class GameManager : MonoBehaviour
             EndTurn();
         }
 
-        if (Input.GetMouseButtonDown(1)) // 1 correspond au clic droit de la souris
+        if (Input.GetMouseButtonDown(1) && isCastlePlace)
         {
             CancelBuildingSelection();
         }
@@ -344,8 +372,28 @@ public class GameManager : MonoBehaviour
         CalculateResourceProduction();
         TurnManager.Instance.EndTurn();
     }
+    private void CalculateResourceProduction()
+    {
+        int totalWoodProduction = 0;
+        int totalStoneProduction = 0;
 
-    // Méthodes pour obtenir les ressources
+        // Parcourir tous les bâtiments placés et calculer la production
+        foreach (var building in placedBuildings)
+        {
+            totalWoodProduction += building.GetWoodProduction();
+            totalStoneProduction += building.GetStoneProduction();
+        }
+
+        // Ajouter la production totale aux ressources du joueur
+        playerWood += totalWoodProduction;
+        playerStone += totalStoneProduction;
+
+        // Mettre à jour l'interface utilisateur des ressources
+        UpdateResourceUI();
+
+        Debug.Log($"Production de fin de tour: +{totalWoodProduction} bois, +{totalStoneProduction} pierre");
+    }
+
     public int GetPlayerWood()
     {
         return playerWood;
