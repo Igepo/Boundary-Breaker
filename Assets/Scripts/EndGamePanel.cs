@@ -10,6 +10,8 @@ public class EndGamePanel : MonoBehaviour
     {
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
+
+        MusicManager.instance.ResumeMusic();
     }
 
     public void OnMainMenuButton()

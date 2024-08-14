@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -10,35 +12,42 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject _castlePrefab;
     [SerializeField] private GridManager _gridManager;
-    [SerializeField] private GameObject endGameUI;
+    [SerializeField] private GameObject _endGameUI;
+    [SerializeField] private TextMeshProUGUI _endText;
 
     private GameObject _instantiatedFloatingObject;
     private GameObject _prefabToInstantiate;
     private Camera _mainCamera;
-    private bool isCastlePlace = false;
-    private bool isPlacable;
+    private bool _isCastlePlace = false;
+    private bool _isPlacable;
 
-    [SerializeField] private int playerWood = 100; // Exemples de ressources initiales
-    [SerializeField] private int playerStone = 50;
-    [SerializeField] private int playerVillager = 0;
+    [SerializeField] private int _playerWood = 100; // Exemples de ressources initiales
+    [SerializeField] private int _playerStone = 50;
+    [SerializeField] private int _playerVillager = 0;
+
+
+    [SerializeField] private Color _isPlacableColor;
+    [SerializeField] private Color _isNotPlacableColor;
 
     private BuildingClick _selectedBuilding;
     private (int woodCost, int stoneCost, int villagerCost) _buildingCosts;
 
-    private List<GridTileBase> placedBuildings = new List<GridTileBase>();
+    private List<GridTileBase> _placedBuildings = new List<GridTileBase>();
 
     private int _totalTiles;
     private int _revealedTiles = 0;
-    
+    private bool _shouldMirrorNextBuilding = false;
+
+    public static event Action<GameManager> OnTurnEnded;
+
     private void OnEnable()
     {
         // S'abonner à l'événement de révélation des tuiles
         GridTileBase.OnTileClicked += HandleTileClicked;
         BuildingClick.OnBuildingClicked += HandleBuildingClick;
         GridTileBase.OnTileHover += HandleTileHover;
+        TurnManager.OnGameOver += OnGameOver;
         GridManager.OnTilesInitialized += InitializeTotalTiles;
-
-        StartCoroutine(SubscribeToTurnManagerEvent());
     }
 
     private void OnDisable()
@@ -47,27 +56,19 @@ public class GameManager : MonoBehaviour
         GridTileBase.OnTileClicked -= HandleTileClicked;
         BuildingClick.OnBuildingClicked -= HandleBuildingClick;
         GridTileBase.OnTileHover -= HandleTileHover;
-        TurnManager.Instance.OnTurnStarted -= OnTurnStarted;
+        TurnManager.OnGameOver -= OnGameOver;
         GridManager.OnTilesInitialized -= InitializeTotalTiles;
     }
-    private IEnumerator SubscribeToTurnManagerEvent()
-    {
-        while (TurnManager.Instance == null)
-        {
-            yield return null; // Attendre un frame avant de réessayer
-        }
 
-        TurnManager.Instance.OnTurnStarted += OnTurnStarted;
-    }
     private void UpdateResourceUI()
     {
         // Assurez-vous que ResourceUIManager est correctement assigné
         var resourceUIManager = FindObjectOfType<ResourceUIManager>();
         if (resourceUIManager != null)
         {
-            resourceUIManager.SetWood(playerWood);
-            resourceUIManager.SetStone(playerStone);
-            resourceUIManager.SetVillager(playerVillager);
+            resourceUIManager.SetWood(_playerWood);
+            resourceUIManager.SetStone(_playerStone);
+            resourceUIManager.SetVillager(_playerVillager);
         }
     }
     private void InitializeTotalTiles()
@@ -80,21 +81,18 @@ public class GameManager : MonoBehaviour
     {
         if (_instantiatedFloatingObject != null)
         {
-            Vector3 mousePosition = Input.mousePosition;
-            Vector3 worldPosition = _mainCamera.ScreenToWorldPoint(mousePosition);
-            worldPosition.z = 0;
-            _instantiatedFloatingObject.transform.position = worldPosition;
+            
 
             var newTileSpriteRenderer = _instantiatedFloatingObject.GetComponentInChildren<SpriteRenderer>();
 
             var floatingObjectGridTileBase = _instantiatedFloatingObject.GetComponentInChildren<GridTileBase>();
-            if (isCastlePlace) // Pas de gestion de couleur pour le château
+            if (_isCastlePlace) // Pas de gestion de couleur pour le château
             {
                 // Vérifier si le bâtiment peut être placé sur cette tuile
-                isPlacable = tile.IsReveal && IsBuildingAllowedOnTile(tile.TileTypeGetter, floatingObjectGridTileBase.BuildingTypeGetter);
+                _isPlacable = tile.IsReveal && IsBuildingAllowedOnTile(tile.TileTypeGetter, floatingObjectGridTileBase.BuildingTypeGetter);
 
                 // Mettre à jour la couleur du bâtiment en fonction de la possibilité de placement
-                Color colorPlacement = isPlacable ? Color.green : Color.red;
+                Color colorPlacement = _isPlacable ? _isPlacableColor : _isNotPlacableColor;
                 newTileSpriteRenderer.color = colorPlacement;
             }
         }
@@ -116,7 +114,7 @@ public class GameManager : MonoBehaviour
     }
     private void HandleBuildingClick(BuildingClick building)
     {
-        if (isCastlePlace)
+        if (_isCastlePlace)
         {
             PrepareBuildingConstruction(building);
         }
@@ -144,7 +142,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("Pas assez de ressources pour construire ce bâtiment.");
+                SoundManager.instance.PlaySound("PickBuildingImpossible");
             }
         }
         else
@@ -154,7 +152,7 @@ public class GameManager : MonoBehaviour
     }
     private bool HasEnoughResources(int woodCost, int stoneCost, int villagerCost)
     {
-        return playerWood >= woodCost && playerStone >= stoneCost && playerVillager >= villagerCost;
+        return _playerWood >= woodCost && _playerStone >= stoneCost && _playerVillager >= villagerCost;
     }
     private void InstantiateBuildingPrefab(BuildingClick building)
     {
@@ -170,6 +168,7 @@ public class GameManager : MonoBehaviour
             _instantiatedFloatingObject = Instantiate(building.BuildingPrefab);
             _prefabToInstantiate = _instantiatedFloatingObject;
         }
+        SoundManager.instance.PlaySound("PickBuilding");
     }
 
     private void HandleTileClicked(GridTileBase tile)
@@ -177,7 +176,7 @@ public class GameManager : MonoBehaviour
         if (_instantiatedFloatingObject == null)
             return;
 
-        if (isCastlePlace && !isPlacable)
+        if (_isCastlePlace && !_isPlacable)
             return;
 
         PrepareFloatingObjectForPlacement();
@@ -187,10 +186,12 @@ public class GameManager : MonoBehaviour
         GenerateResourcesOnPlacement(newTile);
         ReplaceTile(tile, newTile);
 
-        if (!isCastlePlace)
+        if (!_isCastlePlace)
         {
-            isCastlePlace = true;
+            _isCastlePlace = true;
         }
+
+        _shouldMirrorNextBuilding = !_shouldMirrorNextBuilding;
     }
 
     private void PrepareFloatingObjectForPlacement()
@@ -208,7 +209,7 @@ public class GameManager : MonoBehaviour
         {
             if (tile.BuildingTypeGetter == BuildingType.House)
             {
-                playerVillager += tile.GetVillagerProduction();
+                _playerVillager += tile.GetVillagerProduction();
                 UpdateResourceUI();
             }
         }
@@ -217,13 +218,18 @@ public class GameManager : MonoBehaviour
     {
         GameObject newTile = Instantiate(_prefabToInstantiate, tile.transform.position, Quaternion.identity, tile.transform.parent);
 
-        // Ajouter le nouveau bâtiment à la liste des bâtiments placés
         GridTileBase newTileGridTileBase = newTile.GetComponentInChildren<GridTileBase>();
         if (newTileGridTileBase != null)
         {
-            placedBuildings.Add(newTileGridTileBase);
+            _placedBuildings.Add(newTileGridTileBase);
         }
 
+        if (_shouldMirrorNextBuilding) // 50% de chance
+        {
+            Vector3 scale = newTile.transform.localScale;
+            scale.x *= -1;
+            newTile.transform.localScale = scale;
+        }
         return newTile;
     }
 
@@ -236,9 +242,9 @@ public class GameManager : MonoBehaviour
         if (buildingGridTileBase != null)
         {
             var costs = buildingGridTileBase.GetCosts();
-            playerWood -= costs.woodCost;
-            playerStone -= costs.stoneCost;
-            playerVillager -= costs.villagerCost;
+            _playerWood -= costs.woodCost;
+            _playerStone -= costs.stoneCost;
+            _playerVillager -= costs.villagerCost;
             UpdateResourceUI();
         }
     }
@@ -263,8 +269,10 @@ public class GameManager : MonoBehaviour
         PolygonCollider2D newTileCollider = newTile.GetComponentInChildren<PolygonCollider2D>();
         if (newTileCollider != null)
         {
-            newTileCollider.enabled = true; // On réactive le collider
+            newTileCollider.enabled = true;
         }
+
+        SoundManager.instance.PlaySound("BuildingPlacement");
 
         TileRevealed(oldTile, newTile);
     }
@@ -273,8 +281,6 @@ public class GameManager : MonoBehaviour
     {
         GridTileBase newTileGridTileBase = newTile.GetComponentInChildren<GridTileBase>();
         var newTileGridTileBaseRevealType = newTileGridTileBase.TileRevealType;
-
-        // On revele les tuiles
         if (newTileGridTileBase != null)
         {
             var coord = new Vector2(tile.transform.position.x, tile.transform.position.y);
@@ -286,7 +292,7 @@ public class GameManager : MonoBehaviour
                 if (!adjacentTile.IsReveal)
                 {
                     adjacentTile.SetReveal(true);
-                    _revealedTiles++; // Incrémenter pour chaque tuile révélée
+                    _revealedTiles++;
                 }
             }
         }
@@ -296,25 +302,31 @@ public class GameManager : MonoBehaviour
     {
         if (_revealedTiles >= _totalTiles)
         {
-            EndGame();
+            EndGame(true);
         }
     }
-    private void EndGame()
+    private void EndGame(bool isVictory)
     {
-        // Afficher un message de victoire
-        Debug.Log("Félicitations ! Toutes les tuiles sont révélées. Le jeu est terminé.");
+        if (isVictory)
+        {
+            SoundManager.instance.PlaySound("Victory");
+            _endText.text = "Congratulations !";
+        }
+        else
+        {
+            SoundManager.instance.PlaySound("Defeat");
+            _endText.text = "There are no days left...";
+        }
 
-        // Vous pourriez désactiver les entrées du joueur, afficher un écran de victoire, etc.
-        // Exemple: activer un écran de fin de jeu
-        endGameUI.SetActive(true);
+        _endGameUI.SetActive(true);
 
-        // Optionnel: Arrêter le jeu
+        MusicManager.instance.StopMusic();
         Time.timeScale = 0;
     }
     void Start()
     {
         _mainCamera = Camera.main;
-        endGameUI.SetActive(false);
+        _endGameUI.SetActive(false);
         OnBegin();
         UpdateResourceUI();
     }
@@ -336,71 +348,64 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            EndTurn();
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    EndTurn();
+        //}
 
-        if (Input.GetMouseButtonDown(1) && isCastlePlace)
+        if (Input.GetMouseButtonDown(1) && _isCastlePlace)
         {
             CancelBuildingSelection();
         }
+
+        Vector3 mousePosition = Input.mousePosition;
+        Vector3 worldPosition = _mainCamera.ScreenToWorldPoint(mousePosition);
+        worldPosition.z = 0;
+        if (_instantiatedFloatingObject != null)
+            _instantiatedFloatingObject.transform.position = worldPosition;
     }
 
     private void CancelBuildingSelection()
     {
-        // Si un objet est actuellement sélectionné
         if (_instantiatedFloatingObject != null)
         {
-            Destroy(_instantiatedFloatingObject); // Détruire l'objet flottant
-            _instantiatedFloatingObject = null; // Réinitialiser la variable
-            _selectedBuilding = null; // Réinitialiser la sélection du bâtiment
-            _prefabToInstantiate = null; // Réinitialiser le prefab à instancier
+            Destroy(_instantiatedFloatingObject);
+            _instantiatedFloatingObject = null;
+            _selectedBuilding = null;
+            _prefabToInstantiate = null;
 
             Debug.Log("Sélection du bâtiment annulée.");
         }
     }
 
-    private void OnTurnStarted()
+    private void OnGameOver(TurnManager turn)
     {
-        // Réinitialiser l'état des objets, ou mettre à jour des éléments en début de tour
-        Debug.Log("Un nouveau tour a commencé.");
+        EndGame(false);
     }
-
     public void EndTurn()
     {
-        CalculateResourceProduction();
-        TurnManager.Instance.EndTurn();
+        if (_isCastlePlace) // On vérifie si le chateau a été placé
+        {
+            CalculateResourceProduction();
+            OnTurnEnded?.Invoke(this);
+            SoundManager.instance.PlaySound("EndTurn");
+            //TurnManager.Instance.EndTurn();
+        }
     }
     private void CalculateResourceProduction()
     {
         int totalWoodProduction = 0;
         int totalStoneProduction = 0;
 
-        // Parcourir tous les bâtiments placés et calculer la production
-        foreach (var building in placedBuildings)
+        foreach (var building in _placedBuildings)
         {
             totalWoodProduction += building.GetWoodProduction();
             totalStoneProduction += building.GetStoneProduction();
         }
 
-        // Ajouter la production totale aux ressources du joueur
-        playerWood += totalWoodProduction;
-        playerStone += totalStoneProduction;
+        _playerWood += totalWoodProduction;
+        _playerStone += totalStoneProduction;
 
-        // Mettre à jour l'interface utilisateur des ressources
         UpdateResourceUI();
-
-        Debug.Log($"Production de fin de tour: +{totalWoodProduction} bois, +{totalStoneProduction} pierre");
-    }
-
-    public int GetPlayerWood()
-    {
-        return playerWood;
-    }
-
-    public int GetPlayerStone()
-    {
-        return playerStone;
     }
 }

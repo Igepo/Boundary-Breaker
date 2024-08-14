@@ -15,6 +15,7 @@ public class ResourceUIManager : MonoBehaviour
     private int playerVillager;
 
     private int playerTurn;
+    private int playerMaxTurn;
 
     private void Start()
     {
@@ -42,6 +43,11 @@ public class ResourceUIManager : MonoBehaviour
         playerTurn = currentTurn;
         UpdateUI();
     }
+    public void SetMaxTurn(int MaxTurn)
+    {
+        playerMaxTurn = MaxTurn;
+        UpdateUI();
+    }
 
     private void UpdateUI()
     {
@@ -62,7 +68,7 @@ public class ResourceUIManager : MonoBehaviour
 
         if (turnText != null)
         {
-            turnText.text = "Day: " + playerTurn;
+            turnText.text = $"Day: {playerTurn} / {playerMaxTurn}";
         }
     }
 }

@@ -9,12 +9,16 @@ public class CostUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI stoneText;
     [SerializeField] private TextMeshProUGUI villagerText;
 
+    [SerializeField] private TextMeshProUGUI produceResourceText;
+
     [SerializeField] private GameObject prefab;
 
     // Valeurs de ressources
-    private int woodCost;
-    private int stoneCost;
-    private int villagerCost;
+    private int _woodCost;
+    private int _stoneCost;
+    private int _villagerCost;
+
+    private int _produceResource;
 
     void Start()
     {
@@ -26,13 +30,17 @@ public class CostUI : MonoBehaviour
         var prefabGridTileBase = prefab.GetComponentInChildren<GridTileBase>();
 
         var costs = prefabGridTileBase.GetCosts();
-        woodCost = costs.woodCost;
-        stoneCost = costs.stoneCost;
-        villagerCost = costs.villagerCost;
+        _woodCost = costs.woodCost;
+        _stoneCost = costs.stoneCost;
+        _villagerCost = costs.villagerCost;
 
-        woodText.text = woodCost.ToString();
-        stoneText.text = stoneCost.ToString();
+        woodText.text = _woodCost.ToString();
+        stoneText.text = _stoneCost.ToString();
         if (villagerText != null)
-            villagerText.text = villagerCost.ToString();
+            villagerText.text = _villagerCost.ToString();
+
+        var production = prefabGridTileBase.GetProduction();
+        _produceResource = production.woodProduction + production.stoneProduction + production.villagerProduction;
+        produceResourceText.text = _produceResource.ToString();
     }
 }

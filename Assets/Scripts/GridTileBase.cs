@@ -40,7 +40,8 @@ public class GridTileBase : MonoBehaviour
     {
         None,
         Cross,
-        Square
+        Square,
+        Star
     }
 
     public enum TileType
@@ -112,7 +113,10 @@ public class GridTileBase : MonoBehaviour
     {
         return (_woodCost, _stoneCost, _villagerCost);
     }
-
+    public (int woodProduction, int stoneProduction, int villagerProduction) GetProduction()
+    {
+        return (_woodProduction, _stoneProduction, _villagerProduction);
+    }
     public int GetVillagerProduction()
     {
         return _villagerProduction;

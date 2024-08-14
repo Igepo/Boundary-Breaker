@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using static GridTileBase;
@@ -15,16 +14,17 @@ public class GridManager : MonoBehaviour
     [SerializeField, Range(0, 1)] private float _forestAmount = 0.2f;
     [SerializeField, Range(0, 1)] private float _mountainAmount = 0.1f;
     [SerializeField] private GridType _gridType;
-    [SerializeField] private ScriptableGridConfig[] _configs;
+
+    [Header("Grid Configurations")]
+    [SerializeField] private GridLayout.CellLayout _layout;
+    [SerializeField] private Vector3 _cellSize;
+    [SerializeField] private GridLayout.CellSwizzle _gridSwizzle;
+    [SerializeField] private GridTileBase _plainPrefab;
+    [SerializeField] private GridTileBase _forestPrefab;
+    [SerializeField] private GridTileBase _mountainPrefab;
 
     private bool _requiresGeneration = true;
-    private Camera _cam;
     private Grid _grid;
-
-    private Vector3 _cameraPositionTarget;
-    private float _cameraSizeTarget;
-    private Vector3 _moveVel;
-    private float _cameraSizeVel;
 
     private Vector2 _currentGap;
     private Vector2 _gapVel;
@@ -37,16 +37,16 @@ public class GridManager : MonoBehaviour
     public List<GridTileBase> TilesList { get; private set; } = new List<GridTileBase>();
     public static event Action OnTilesInitialized;
 
+    private CameraController _cameraController;
 
     private void OnEnable()
     {
-        // S'abonner à l'événement de révélation des tuiles
+        hideFlags = HideFlags.DontUnloadUnusedAsset;
         GridTileBase.OnTileRevealed += HandleTileRevealed;
     }
 
     private void OnDisable()
     {
-        // Se désabonner de l'événement lorsqu'il n'est plus nécessaire
         GridTileBase.OnTileRevealed -= HandleTileRevealed;
     }
 
@@ -67,15 +67,16 @@ public class GridManager : MonoBehaviour
         {
             bounds.Encapsulate(tileRendererBound);
         }
-        Debug.Log("bounds " + bounds);
-        SetCamera(bounds);
+
+        _cameraController?.SetCamera(bounds);
     }
 
     private void Awake()
     {
         _grid = GetComponent<Grid>();
-        _cam = Camera.main;
         _currentGap = _gap;
+
+        _cameraController = FindObjectOfType<CameraController>();
     }
 
     private void OnValidate() => _requiresGeneration = true;
@@ -89,9 +90,6 @@ public class GridManager : MonoBehaviour
         }
 
         if (_requiresGeneration) Generate();
-
-        _cam.transform.position = Vector3.SmoothDamp(_cam.transform.position, _cameraPositionTarget, ref _moveVel, 0.5f);
-        _cam.orthographicSize = Mathf.SmoothDamp(_cam.orthographicSize, _cameraSizeTarget, ref _cameraSizeVel, 0.5f);
     }
 
     private void Generate()
@@ -101,13 +99,16 @@ public class GridManager : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-        var config = _configs.First(c => c.Type == _gridType);
+        if (_plainPrefab == null || _forestPrefab == null || _mountainPrefab == null)
+        {
+            Debug.LogError("One or more prefabs are not set.");
+            return;
+        }
 
-        _grid.cellLayout = config.Layout;
-        _grid.cellSize = config.CellSize;
-        //Debug.Log($"cellLayout : {_grid.cellLayout}, cellSize : {_grid.cellSize}");
+        _grid.cellLayout = _layout;
+        _grid.cellSize = _cellSize;
         if (_grid.cellLayout != GridLayout.CellLayout.Hexagon) _grid.cellGap = _currentGap;
-        _grid.cellSwizzle = config.GridSwizzle;
+        _grid.cellSwizzle = _gridSwizzle;
 
         var coordinates = new List<Vector3Int>();
 
@@ -136,17 +137,17 @@ public class GridManager : MonoBehaviour
 
             if (isForest)
             {
-                prefab = config.ForestPrefab;
+                prefab = _forestPrefab;
                 tileType = GridTileBase.TileType.Forest;
             }
             else if (isMountain)
             {
-                prefab = config.MountainPrefab;
+                prefab = _mountainPrefab;
                 tileType = GridTileBase.TileType.Mountain;
             }
             else
             {
-                prefab = config.PlainPrefab;
+                prefab = _plainPrefab;
                 tileType = GridTileBase.TileType.Plain;
             }
 
@@ -163,11 +164,8 @@ public class GridManager : MonoBehaviour
 
             mapBounds.Encapsulate(spawned.GetComponent<Renderer>().bounds);
             _tileDictionary[position] = spawned;
-            FogOfWarManager.Instance.RegisterTile(spawned);
         }
-        Debug.Log("mapBounds " + mapBounds);
-
-        SetCamera(mapBounds);
+        _cameraController?.SetCamera(mapBounds);
 
         OnTilesInitialized?.Invoke();
 
@@ -178,16 +176,6 @@ public class GridManager : MonoBehaviour
     {
         return _tileDictionary.Count;
     }
-    private void SetCamera(Bounds bounds)
-    {
-        bounds.Expand(2);
-
-        var vertical = bounds.size.y;
-        var horizontal = bounds.size.x * _cam.pixelHeight / _cam.pixelWidth;
-        _cameraPositionTarget = bounds.center + Vector3.back;
-        _cameraSizeTarget = Mathf.Max(horizontal, vertical) * 0.5f;
-        Debug.Log("_cameraPositionTarget " + _cameraPositionTarget);
-    }
 
     public List<GridTileBase> GetAdjacentTiles(Vector2 coord, RevealType revealType)
     {
@@ -195,28 +183,48 @@ public class GridManager : MonoBehaviour
 
         Vector2[] crossOffsets = new Vector2[]
         {
-            new Vector3(0.5f, -0.25f),  // Right (might correspond to bottom-right in isometric)
-            new Vector3(-0.5f, 0.25f), // Left (might correspond to top-left in isometric)
+            new Vector3(0.5f, -0.25f),  // bottom-right
+            new Vector3(-0.5f, 0.25f), // top-left
 
             new Vector3(0f, 0f), // Center
 
-            new Vector3(0.5f, 0.25f),  // Up (might correspond to top-right in isometric)
-            new Vector3(-0.5f, -0.25f)  // Down (might correspond to bottom-left in isometric)
+            new Vector3(0.5f, 0.25f),  // top-right
+            new Vector3(-0.5f, -0.25f)  // bottom-left
         };
 
         Vector2[] squareOffsets = new Vector2[]
         {
-            new Vector3(0.5f, -0.25f),  // Right (might correspond to bottom-right in isometric)
-            new Vector3(-0.5f, 0.25f), // Left (might correspond to top-left in isometric)
-            new Vector3(0.5f, 0.25f),  // Up (might correspond to top-right in isometric)
-            new Vector3(-0.5f, -0.25f),  // Down (might correspond to bottom-left in isometric)
+            new Vector3(0.5f, -0.25f),  // bottom-right
+            new Vector3(-0.5f, 0.25f), // top-left
+            new Vector3(0.5f, 0.25f),  // top-right
+            new Vector3(-0.5f, -0.25f),  // bottom-left
 
             new Vector3(0f, 0f), // Center
 
-            new Vector3(1f, 0f), // Up-Right
-            new Vector3(0f, -0.5f), // Down-Right
-            new Vector3(0f, 0.5f), // Up-Left
-            new Vector3(-1f, 0f) // Down-Left
+            new Vector3(1f, 0f), // top
+            new Vector3(0f, -0.5f), // Right
+            new Vector3(0f, 0.5f), // Left
+            new Vector3(-1f, 0f) // bottom
+        };
+
+        Vector2[] starOffsets = new Vector2[]
+        {
+            new Vector3(0.5f, -0.25f),  // bottom-right
+            new Vector3(-0.5f, 0.25f), // top-left
+            new Vector3(0.5f, 0.25f),  // top-right
+            new Vector3(-0.5f, -0.25f),  // bottom-left
+
+            new Vector3(0f, 0f), // Center
+
+            new Vector3(1f, 0f), // bottom
+            new Vector3(0f, -0.5f), // Left
+            new Vector3(0f, 0.5f), // Right
+            new Vector3(-1f, 0f), // top
+
+            new Vector3(1f, -0.5f),  // bottom-right +1
+            new Vector3(-1f, 0.5f), // top-left +1
+            new Vector3(1f, 0.5f),  // top-right +1
+            new Vector3(-1f, -0.5f),  // bottom-left +1
         };
 
         Vector2[] offsets;
@@ -227,6 +235,10 @@ public class GridManager : MonoBehaviour
         else if (revealType == RevealType.Square)
         {
             offsets = squareOffsets;
+        }
+        else if (revealType == RevealType.Star)
+        {
+            offsets = starOffsets;
         }
         else
             return adjacentTiles; // Type None
@@ -247,18 +259,6 @@ public class GridManager : MonoBehaviour
 
         return adjacentTiles;
     }
-}
-
-
-[CreateAssetMenu]
-public class ScriptableGridConfig : ScriptableObject
-{
-    public GridType Type;
-    [Space(10)]
-    public GridLayout.CellLayout Layout;
-    public GridTileBase PlainPrefab, ForestPrefab, MountainPrefab;
-    public Vector3 CellSize;
-    public GridLayout.CellSwizzle GridSwizzle;
 }
 
 [Serializable]
