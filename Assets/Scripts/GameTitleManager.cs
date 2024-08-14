@@ -12,8 +12,8 @@ public class GameTitleManager : MonoBehaviour
 
     void Update()
     {
-        var sinValue = Mathf.Sin(Time.time);
-        float size = 0.75f + ((sinValue + 1.0f) / 2.0f) * 0.25f;
+        var sinValue = Mathf.Sin(Time.time * 10);
+        float size = 0.90f + ((sinValue + 1.0f) / 2.0f) * 0.10f;
         this.transform.localScale = size * Vector3.one;
     }
 }

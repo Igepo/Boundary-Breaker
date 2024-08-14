@@ -382,6 +382,7 @@
 "Assets/Scripts/GameTitleManager.cs"
 "Assets/Scripts/GridManager.cs"
 "Assets/Scripts/GridTileBase.cs"
+"Assets/Scripts/HowToPlayButton.cs"
 "Assets/Scripts/MusicManager.cs"
 "Assets/Scripts/OptionManager.cs"
 "Assets/Scripts/PlayButton.cs"
