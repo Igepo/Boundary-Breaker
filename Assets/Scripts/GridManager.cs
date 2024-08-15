@@ -259,6 +259,83 @@ public class GridManager : MonoBehaviour
 
         return adjacentTiles;
     }
+
+    public List<GridTileBase> GetAdjacentTilesWithoutCenter(Vector2 coord, RevealType revealType)
+    {
+        List<GridTileBase> adjacentTiles = new List<GridTileBase>();
+
+        Vector2[] crossOffsets = new Vector2[]
+        {
+            new Vector3(0.5f, -0.25f),  // bottom-right
+            new Vector3(-0.5f, 0.25f), // top-left
+
+            new Vector3(0.5f, 0.25f),  // top-right
+            new Vector3(-0.5f, -0.25f)  // bottom-left
+        };
+
+        Vector2[] squareOffsets = new Vector2[]
+        {
+            new Vector3(0.5f, -0.25f),  // bottom-right
+            new Vector3(-0.5f, 0.25f), // top-left
+            new Vector3(0.5f, 0.25f),  // top-right
+            new Vector3(-0.5f, -0.25f),  // bottom-left
+
+            new Vector3(1f, 0f), // top
+            new Vector3(0f, -0.5f), // Right
+            new Vector3(0f, 0.5f), // Left
+            new Vector3(-1f, 0f) // bottom
+        };
+
+        Vector2[] starOffsets = new Vector2[]
+        {
+            new Vector3(0.5f, -0.25f),  // bottom-right
+            new Vector3(-0.5f, 0.25f), // top-left
+            new Vector3(0.5f, 0.25f),  // top-right
+            new Vector3(-0.5f, -0.25f),  // bottom-left
+
+            new Vector3(1f, 0f), // bottom
+            new Vector3(0f, -0.5f), // Left
+            new Vector3(0f, 0.5f), // Right
+            new Vector3(-1f, 0f), // top
+
+            new Vector3(1f, -0.5f),  // bottom-right +1
+            new Vector3(-1f, 0.5f), // top-left +1
+            new Vector3(1f, 0.5f),  // top-right +1
+            new Vector3(-1f, -0.5f),  // bottom-left +1
+        };
+
+        Vector2[] offsets;
+        if (revealType == RevealType.Cross)
+        {
+            offsets = crossOffsets;
+        }
+        else if (revealType == RevealType.Square)
+        {
+            offsets = squareOffsets;
+        }
+        else if (revealType == RevealType.Star)
+        {
+            offsets = starOffsets;
+        }
+        else
+            return adjacentTiles; // Type None
+
+        foreach (var offset in offsets)
+        {
+            Vector3 neighborCoord = coord + offset;
+
+            foreach (var tileEntry in _tileDictionary)
+            {
+                Vector2 tilePosition = new Vector2(tileEntry.Key.x, tileEntry.Key.y);
+                if (Vector2.Distance(tilePosition, neighborCoord) < 0.1f)
+                {
+                    adjacentTiles.Add(tileEntry.Value);
+                }
+            }
+        }
+
+        return adjacentTiles;
+    }
 }
 
 [Serializable]

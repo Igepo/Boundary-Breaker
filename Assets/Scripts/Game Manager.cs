@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
 using static GridTileBase;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,6 +16,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GridManager _gridManager;
     [SerializeField] private GameObject _endGameUI;
     [SerializeField] private TextMeshProUGUI _endText;
+
+    [SerializeField] private GameObject forestPrefab;
+    [SerializeField] private GameObject mountainPrefab;
 
     private GameObject _instantiatedFloatingObject;
     private GameObject _prefabToInstantiate;
@@ -185,15 +190,42 @@ public class GameManager : MonoBehaviour
         DeductPlayerResources();
         GenerateResourcesOnPlacement(newTile);
         ReplaceTile(tile, newTile);
-
+        
         if (!_isCastlePlace)
         {
+            PlaceCastleBeginHelp(tile);
             _isCastlePlace = true;
         }
 
         _shouldMirrorNextBuilding = !_shouldMirrorNextBuilding;
     }
 
+    private void PlaceCastleBeginHelp(GridTileBase tile)
+    {
+        var adjacentTiles = _gridManager.GetAdjacentTilesWithoutCenter(tile.transform.position, RevealType.Square);
+
+        int plainTileCount = 0;
+        foreach (var adjacentTile in adjacentTiles)
+        {
+            if (adjacentTile.TileTypeGetter == TileType.Plain)
+            {
+                plainTileCount++;
+            }
+        }
+
+        if (plainTileCount >= 2)
+        {
+            var plainTiles = adjacentTiles.Where(t => t.TileTypeGetter == TileType.Plain).ToList();
+            if (plainTiles.Count >= 2)
+            {
+                int randomIndex1 = Random.Range(0, plainTiles.Count);
+                int randomIndex2 = (randomIndex1 + 1) % plainTiles.Count;
+
+                plainTiles[randomIndex1].SetTileType(TileType.Mountain, mountainPrefab);
+                plainTiles[randomIndex2].SetTileType(TileType.Forest, forestPrefab);
+            }
+        }
+    }
     private void PrepareFloatingObjectForPlacement()
     {
         var spriteRenderer = _instantiatedFloatingObject.GetComponentInChildren<SpriteRenderer>();

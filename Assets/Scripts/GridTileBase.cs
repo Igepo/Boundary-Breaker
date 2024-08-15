@@ -53,7 +53,13 @@ public class GridTileBase : MonoBehaviour
     }
     private TileType _tileType;
     public TileType TileTypeGetter => _tileType;
-
+    public void SetTileType(TileType newTileType, GameObject newPrefab)
+    {
+        _tileType = newTileType;
+        Debug.Log("newPrefab sprite " + newPrefab.GetComponent<SpriteRenderer>().sprite.name);
+        Debug.Log("this sprite " + GetComponent<SpriteRenderer>().sprite.name);
+        GetComponent<SpriteRenderer>().sprite = newPrefab.GetComponent<SpriteRenderer>().sprite;
+    }
 
     private Color _revealedColor = Color.white;
     private Color _hiddenColor = Color.black;
