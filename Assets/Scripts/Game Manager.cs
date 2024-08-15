@@ -147,7 +147,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                SoundManager.instance.PlaySound("PickBuildingImpossible");
+                SoundManager.Instance.PlaySound("PickBuildingImpossible");
             }
         }
         else
@@ -173,7 +173,7 @@ public class GameManager : MonoBehaviour
             _instantiatedFloatingObject = Instantiate(building.BuildingPrefab);
             _prefabToInstantiate = _instantiatedFloatingObject;
         }
-        SoundManager.instance.PlaySound("PickBuilding");
+        SoundManager.Instance.PlaySound("PickBuilding");
     }
 
     private void HandleTileClicked(GridTileBase tile)
@@ -304,7 +304,7 @@ public class GameManager : MonoBehaviour
             newTileCollider.enabled = true;
         }
 
-        SoundManager.instance.PlaySound("BuildingPlacement");
+        SoundManager.Instance.PlaySound("BuildingPlacement");
 
         TileRevealed(oldTile, newTile);
     }
@@ -341,19 +341,18 @@ public class GameManager : MonoBehaviour
     {
         if (isVictory)
         {
-            SoundManager.instance.PlaySound("Victory");
+            SoundManager.Instance.PlaySound("Victory");
             _endText.text = "Congratulations !";
         }
         else
         {
-            SoundManager.instance.PlaySound("Defeat");
+            SoundManager.Instance.PlaySound("Defeat");
             _endText.text = "There are no days left...";
         }
 
         _endGameUI.SetActive(true);
 
-        MusicManager.instance.StopMusic();
-        Time.timeScale = 0;
+        MusicManager.Instance.StopMusic();
     }
     void Start()
     {
@@ -420,7 +419,7 @@ public class GameManager : MonoBehaviour
         {
             CalculateResourceProduction();
             OnTurnEnded?.Invoke(this);
-            SoundManager.instance.PlaySound("EndTurn");
+            SoundManager.Instance.PlaySound("EndTurn");
             //TurnManager.Instance.EndTurn();
         }
     }

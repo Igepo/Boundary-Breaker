@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    public static SoundManager instance = null;
+    public static SoundManager Instance { get; private set; } = null;
 
     [SerializeField] private AudioSource effectSource;
     [SerializeField] private Sound[] sounds;
@@ -13,13 +13,12 @@ public class SoundManager : MonoBehaviour
 
     void Awake()
     {
-        // Singleton pattern
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else
+        else if (Instance != this)
         {
             Destroy(gameObject);
         }

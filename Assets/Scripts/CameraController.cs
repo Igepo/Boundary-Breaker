@@ -20,15 +20,12 @@ public class CameraController : MonoBehaviour
 
     private void OnEnable()
     {
-        GridManager.OnTilesInitialized += HandleTilesInitialized;
-
         _moveVel = Vector3.zero;
         _cameraSizeVel = 0f;
     }
 
     private void OnDisable()
     {
-        GridManager.OnTilesInitialized -= HandleTilesInitialized;
     }
 
     private void Start()
@@ -45,10 +42,6 @@ public class CameraController : MonoBehaviour
             _cam.transform.position = Vector3.SmoothDamp(_cam.transform.position, _cameraPositionTarget, ref _moveVel, 0.5f);
             _cam.orthographicSize = Mathf.SmoothDamp(_cam.orthographicSize, _cameraSizeTarget, ref _cameraSizeVel, 0.5f);
         }
-    }
-
-    private void HandleTilesInitialized()
-    {
     }
 
     public void SetCamera(Bounds bounds)

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
-    public static MusicManager instance = null;
+    public static MusicManager Instance { get; private set; } = null;
 
     [SerializeField] AudioSource _audioSource;
     [SerializeField] AudioClip[] _musicClips;
@@ -13,12 +13,12 @@ public class MusicManager : MonoBehaviour
 
     void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else
+        else if (Instance != this)
         {
             Destroy(gameObject);
         }

@@ -12,7 +12,7 @@ public class SoundToggleButton : MonoBehaviour
     void Start()
     {
         imageRenderer = GetComponent<Image>();
-        isSoundOn = !MusicManager.instance.IsMuted() && !SoundManager.instance.IsMuted();
+        isSoundOn = !MusicManager.Instance.IsMuted() && !SoundManager.Instance.IsMuted();
         UpdateButtonSprite();
     }
 
@@ -28,13 +28,13 @@ public class SoundToggleButton : MonoBehaviour
 
         if (isSoundOn)
         {
-            MusicManager.instance.UnmuteMusic();
-            SoundManager.instance.UnmuteSound();
+            MusicManager.Instance.UnmuteMusic();
+            SoundManager.Instance.UnmuteSound();
         }
         else
         {
-            MusicManager.instance.MuteMusic();
-            SoundManager.instance.MuteSound();
+            MusicManager.Instance.MuteMusic();
+            SoundManager.Instance.MuteSound();
         }
     }
 
