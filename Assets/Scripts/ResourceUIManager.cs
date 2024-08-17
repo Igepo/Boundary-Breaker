@@ -1,6 +1,6 @@
 using UnityEngine;
-using UnityEngine.UI; // Utilisez ceci si vous utilisez le composant Text standard
-using TMPro; // Utilisez ceci si vous utilisez TextMeshPro
+using UnityEngine.UI;
+using TMPro;
 
 public class ResourceUIManager : MonoBehaviour
 {

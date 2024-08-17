@@ -65,9 +65,13 @@ public class GameManager : MonoBehaviour
         GridManager.OnTilesInitialized -= InitializeTotalTiles;
     }
 
+    public (int playerWood, int playerStone, int playerVillager) GetCurrentRessources()
+    {
+        return (_playerWood, _playerStone, _playerVillager);
+    }
+
     private void UpdateResourceUI()
     {
-        // Assurez-vous que ResourceUIManager est correctement assigné
         var resourceUIManager = FindObjectOfType<ResourceUIManager>();
         if (resourceUIManager != null)
         {

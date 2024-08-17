@@ -103,8 +103,10 @@ MonoBehaviour:
   _HiddenSprite: {fileID: 3625043607559282579, guid: b2725da28c131fb409f0b9cd232a7904, type: 3}
   _woodProduction: 0
   _stoneProduction: 10
+  _villagerProduction: 0
   _woodCost: 0
   _stoneCost: 20
+  _villagerCost: 0
   _buildingType: 4
   _tileRevealType: 1
 --- !u!60 &3325577561119039870

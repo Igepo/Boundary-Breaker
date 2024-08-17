@@ -56,8 +56,6 @@ public class GridTileBase : MonoBehaviour
     public void SetTileType(TileType newTileType, GameObject newPrefab)
     {
         _tileType = newTileType;
-        Debug.Log("newPrefab sprite " + newPrefab.GetComponent<SpriteRenderer>().sprite.name);
-        Debug.Log("this sprite " + GetComponent<SpriteRenderer>().sprite.name);
         GetComponent<SpriteRenderer>().sprite = newPrefab.GetComponent<SpriteRenderer>().sprite;
     }
 

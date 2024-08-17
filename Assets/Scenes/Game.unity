@@ -409,6 +409,7 @@ MonoBehaviour:
   villagerText: {fileID: 0}
   produceResourceText: {fileID: 659252915}
   prefab: {fileID: 3368142920263923823, guid: b7c4032c36468c54f95def7f54030c80, type: 3}
+  prefabImage: {fileID: 336723584}
 --- !u!1 &101955389
 GameObject:
   m_ObjectHideFlags: 0
@@ -1097,6 +1098,7 @@ MonoBehaviour:
   villagerText: {fileID: 0}
   produceResourceText: {fileID: 204434331}
   prefab: {fileID: 6698761975581773734, guid: 4e4ff8177a4b6ed4d81056e5ed41a0ed, type: 3}
+  prefabImage: {fileID: 1955174508}
 --- !u!1 &204434329
 GameObject:
   m_ObjectHideFlags: 0
@@ -4497,6 +4499,7 @@ MonoBehaviour:
   villagerText: {fileID: 1149007387}
   produceResourceText: {fileID: 1107978520}
   prefab: {fileID: 5547937941265716961, guid: d89be092f10f5eb4db88834f54c504d0, type: 3}
+  prefabImage: {fileID: 1348585765}
 --- !u!1 &957160675
 GameObject:
   m_ObjectHideFlags: 0
@@ -5201,6 +5204,7 @@ MonoBehaviour:
   villagerText: {fileID: 0}
   produceResourceText: {fileID: 400814025}
   prefab: {fileID: 2344548721618761246, guid: 8ed8123918d4c2849801e1ec7c845b15, type: 3}
+  prefabImage: {fileID: 696839223}
 --- !u!1 &1107978518
 GameObject:
   m_ObjectHideFlags: 0
@@ -6692,7 +6696,7 @@ GameObject:
   - component: {fileID: 1514572594}
   m_Layer: 0
   m_Name: GameManager
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
