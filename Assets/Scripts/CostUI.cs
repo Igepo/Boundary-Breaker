@@ -44,7 +44,10 @@ public class CostUI : MonoBehaviour
 
         var production = prefabGridTileBase.GetProduction();
         _produceResource = production.woodProduction + production.stoneProduction + production.villagerProduction;
-        produceResourceText.text = _produceResource.ToString();
+        if (this.name == "Button House")
+            produceResourceText.text = _produceResource.ToString();
+        else
+            produceResourceText.text = _produceResource.ToString() + "/day";
     }
 
     private void Update()

@@ -19,7 +19,10 @@ public class HowToPlayButton : MonoBehaviour
 
     public void OnButtonClicked()
     {
-        _tutoGameObject.SetActive(true);
+        if (_tutoGameObject.activeInHierarchy)
+            _tutoGameObject.SetActive(false);
+        else
+            _tutoGameObject.SetActive(true);
     }
 
     public void OnTutoClicked()
