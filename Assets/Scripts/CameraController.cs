@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class CameraController : MonoBehaviour
     private float _cameraSizeTarget;
     private Vector3 _moveVel;
     private float _cameraSizeVel;
+    private Coroutine _moveCameraCoroutine;
 
     [Header("UI Settings")]
     [Tooltip("Height of the bottom UI in pixels.")]
@@ -36,12 +38,12 @@ public class CameraController : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (_cam != null)
-        {
-            //Debug.Log($"_cam.transform.position: {_cam.transform.position}, _cameraPositionTarget: {_cameraPositionTarget}, _cameraSizeTarget: {_cameraSizeTarget}");
-            _cam.transform.position = Vector3.SmoothDamp(_cam.transform.position, _cameraPositionTarget, ref _moveVel, 0.5f);
-            _cam.orthographicSize = Mathf.SmoothDamp(_cam.orthographicSize, _cameraSizeTarget, ref _cameraSizeVel, 0.5f);
-        }
+        //if (_cam != null)
+        //{
+        //    //Debug.Log($"_cam.transform.position: {_cam.transform.position}, _cameraPositionTarget: {_cameraPositionTarget}, _cameraSizeTarget: {_cameraSizeTarget}");
+        //    _cam.transform.position = Vector3.SmoothDamp(_cam.transform.position, _cameraPositionTarget, ref _moveVel, 0.5f);
+        //    _cam.orthographicSize = Mathf.SmoothDamp(_cam.orthographicSize, _cameraSizeTarget, ref _cameraSizeVel, 0.5f);
+        //}
     }
 
     public void SetCamera(Bounds bounds)
@@ -60,5 +62,25 @@ public class CameraController : MonoBehaviour
         _cameraPositionTarget = bounds.center + Vector3.back;
 
         _cameraSizeTarget = Mathf.Max(horizontal, vertical) * 0.5f;
+
+        if (_moveCameraCoroutine != null)
+        {
+            StopCoroutine(_moveCameraCoroutine);
+        }
+
+        _moveCameraCoroutine = StartCoroutine(MoveCameraSmooth());
+    }
+
+    private IEnumerator MoveCameraSmooth()
+    {
+        while (Vector3.Distance(_cam.transform.position, _cameraPositionTarget) > 0.01f ||
+               Mathf.Abs(_cam.orthographicSize - _cameraSizeTarget) > 0.01f)
+        {
+            _cam.transform.position = Vector3.SmoothDamp(_cam.transform.position, _cameraPositionTarget, ref _moveVel, 0.5f);
+
+            _cam.orthographicSize = Mathf.SmoothDamp(_cam.orthographicSize, _cameraSizeTarget, ref _cameraSizeVel, 0.5f);
+
+            yield return null;
+        }
     }
 }

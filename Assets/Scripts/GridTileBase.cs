@@ -7,9 +7,7 @@ using UnityEngine.EventSystems;
 public class GridTileBase : MonoBehaviour
 {
     [SerializeField] private GameObject _highlight;
-    [SerializeField] private Sprite _HiddenSprite;
-
-    
+    [SerializeField] private Sprite _hiddenSprite;
 
     [SerializeField] private int _woodProduction = 0;
     [SerializeField] private int _stoneProduction = 0;
@@ -94,6 +92,14 @@ public class GridTileBase : MonoBehaviour
             {
                 OnTileRevealed?.Invoke(this);
             }
+
+            // On joue l'animation des tuiles qu'on révèle
+            var animator = GetComponent<Animator>();
+            if (animator != null)
+            {
+                Debug.Log("Animation jouée");
+                animator.Play("IsometricDiamondAnim", -1, 0f);
+            }
         }
     }
 
@@ -104,7 +110,7 @@ public class GridTileBase : MonoBehaviour
         if (!_isReveal)
         {
             _spriteRenderer.color = _hiddenColor;
-            _spriteRenderer.sprite = _HiddenSprite;
+            _spriteRenderer.sprite = _hiddenSprite;
         }
         else
         {

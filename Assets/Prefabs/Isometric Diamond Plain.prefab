@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2371531327226271401}
   - component: {fileID: 5368970906082762163}
   - component: {fileID: 7893294311199989794}
+  - component: {fileID: 8282070675549137913}
   m_Layer: 0
   m_Name: Isometric Diamond Plain
   m_TagString: Untagged
@@ -100,7 +101,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _highlight: {fileID: 8956526179409506025}
-  _HiddenSprite: {fileID: 3625043607559282579, guid: b2725da28c131fb409f0b9cd232a7904, type: 3}
+  _hiddenSprite: {fileID: 3625043607559282579, guid: b2725da28c131fb409f0b9cd232a7904, type: 3}
+  _woodProduction: 0
+  _stoneProduction: 0
+  _villagerProduction: 0
+  _woodCost: 0
+  _stoneCost: 0
+  _villagerCost: 0
+  _buildingType: 0
+  _tileRevealType: 0
 --- !u!60 &7893294311199989794
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -133,7 +142,7 @@ PolygonCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.12}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -150,6 +159,27 @@ PolygonCollider2D:
       - {x: 0, y: -0.25}
       - {x: 0.5, y: 0}
   m_UseDelaunayMesh: 0
+--- !u!95 &8282070675549137913
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2207847647494328584}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ba2bb727f61a79444ad315d5398fc35f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8956526179409506025
 GameObject:
   m_ObjectHideFlags: 0

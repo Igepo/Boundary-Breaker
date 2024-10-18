@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 7255234323365083768}
   - component: {fileID: 4403235965020708356}
   - component: {fileID: 4315960740187898483}
+  - component: {fileID: 939308192061174773}
   m_Layer: 0
   m_Name: Isometric Diamond Forest
   m_TagString: Untagged
@@ -184,7 +185,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _highlight: {fileID: 2505222286063134709}
-  _HiddenSprite: {fileID: 3625043607559282579, guid: b2725da28c131fb409f0b9cd232a7904, type: 3}
+  _hiddenSprite: {fileID: 3625043607559282579, guid: b2725da28c131fb409f0b9cd232a7904, type: 3}
+  _woodProduction: 0
+  _stoneProduction: 0
+  _villagerProduction: 0
+  _woodCost: 0
+  _stoneCost: 0
+  _villagerCost: 0
+  _buildingType: 0
+  _tileRevealType: 0
 --- !u!60 &4315960740187898483
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -234,3 +243,24 @@ PolygonCollider2D:
       - {x: 0, y: -0.25}
       - {x: 0.5, y: 0}
   m_UseDelaunayMesh: 0
+--- !u!95 &939308192061174773
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9128731437903289155}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ba2bb727f61a79444ad315d5398fc35f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

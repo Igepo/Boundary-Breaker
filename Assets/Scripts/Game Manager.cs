@@ -95,12 +95,10 @@ public class GameManager : MonoBehaviour
             var newTileSpriteRenderer = _instantiatedFloatingObject.GetComponentInChildren<SpriteRenderer>();
 
             var floatingObjectGridTileBase = _instantiatedFloatingObject.GetComponentInChildren<GridTileBase>();
-            if (_isCastlePlace) // Pas de gestion de couleur pour le château
+            if (_isCastlePlace)
             {
-                // Vérifier si le bâtiment peut être placé sur cette tuile
                 _isPlacable = tile.IsReveal && IsBuildingAllowedOnTile(tile.TileTypeGetter, floatingObjectGridTileBase.BuildingTypeGetter);
 
-                // Mettre à jour la couleur du bâtiment en fonction de la possibilité de placement
                 Color colorPlacement = _isPlacable ? _isPlacableColor : _isNotPlacableColor;
                 newTileSpriteRenderer.color = colorPlacement;
             }
@@ -116,7 +114,6 @@ public class GameManager : MonoBehaviour
                 return tileType == TileType.Forest;
             case BuildingType.Mine:
                 return tileType == TileType.Mountain;
-            // Ajoutez d'autres cas pour d'autres types de bâtiments si nécessaire
             default:
                 return true;
         }
@@ -180,8 +177,13 @@ public class GameManager : MonoBehaviour
         SoundManager.Instance.PlaySound("PickBuilding");
     }
 
+    // Quand on clique sur une tuile
     private void HandleTileClicked(GridTileBase tile)
     {
+        var canPlay = _gridManager.canPlay;
+        if (!canPlay)
+            return;
+
         if (_instantiatedFloatingObject == null)
             return;
 
@@ -206,6 +208,8 @@ public class GameManager : MonoBehaviour
 
     private void PlaceCastleBeginHelp(GridTileBase tile)
     {
+        _gridManager.IsCastlePlaced = true;
+
         var adjacentTiles = _gridManager.GetAdjacentTilesWithoutCenter(tile.transform.position, RevealType.Square);
 
         int plainTileCount = 0;

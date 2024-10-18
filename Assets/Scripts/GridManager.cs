@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using static GridTileBase;
@@ -39,6 +41,14 @@ public class GridManager : MonoBehaviour
 
     private CameraController _cameraController;
 
+    private bool _isCastlePlaced = false;
+    public bool canPlay = false;
+
+    public bool IsCastlePlaced
+    {
+        get => _isCastlePlaced;
+        set => _isCastlePlaced = value;
+    }
     private void OnEnable()
     {
         hideFlags = HideFlags.DontUnloadUnusedAsset;
@@ -68,7 +78,12 @@ public class GridManager : MonoBehaviour
             bounds.Encapsulate(tileRendererBound);
         }
 
-        _cameraController?.SetCamera(bounds);
+        if (!IsCastlePlaced)
+        {
+            Debug.Log("Castle not placed yet");
+            //_cameraController?.SetCamera(bounds);
+            IsCastlePlaced = true;
+        }
     }
 
     private void Awake()
@@ -164,12 +179,50 @@ public class GridManager : MonoBehaviour
 
             mapBounds.Encapsulate(spawned.GetComponent<Renderer>().bounds);
             _tileDictionary[position] = spawned;
+
+            var renderer = spawned.GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                renderer.enabled = false;
+            }
         }
-        _cameraController?.SetCamera(mapBounds);
+        //_cameraController?.SetCamera(mapBounds);
 
         OnTilesInitialized?.Invoke();
 
         _requiresGeneration = false;
+
+        StartCoroutine(AnimateTilesOnStart());
+    }
+
+    private IEnumerator AnimateTilesOnStart()
+    {
+        var groupedTilesByX = _tileDictionary.Values
+            .GroupBy(tile => tile.transform.position.x)
+            .OrderBy(group => group.Key)
+            .ToList();
+
+        foreach (var tileGroup in groupedTilesByX)
+        {
+            foreach (var tile in tileGroup)
+            {
+                var renderer = tile.GetComponent<Renderer>();
+                if (renderer != null)
+                {
+                    renderer.enabled = true;
+
+                    var animator = tile.GetComponent<Animator>();
+                    if (animator != null)
+                    {
+                        animator.Play("IsometricDiamondAnim");
+                    }
+                }
+            }
+
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        canPlay = true;
     }
 
     public int GetTotalTiles()

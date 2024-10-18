@@ -23,6 +23,8 @@ public class CostUI : MonoBehaviour
     private int _produceResource;
 
     private bool _isCraftable = false;
+    [SerializeField] private Color _isNotPlacableColor;
+
     void Start()
     {
         UpdateUI();
@@ -60,7 +62,6 @@ public class CostUI : MonoBehaviour
         var playerVillager = currentRessources.playerVillager;
         if (_woodCost > playerWood || _stoneCost > playerStone || _villagerCost > playerVillager)
         {
-            Debug.Log("_woodCost");
             _isCraftable = false;
         }
         else
@@ -68,6 +69,6 @@ public class CostUI : MonoBehaviour
             _isCraftable = true;
         }
 
-        prefabImage.color = _isCraftable ? Color.white : Color.red;
+        prefabImage.color = _isCraftable ? Color.white : _isNotPlacableColor;
     }
 }
