@@ -18,6 +18,13 @@ public class GridTileBase : MonoBehaviour
     [SerializeField] private int _villagerCost = 0;
     
     [SerializeField] private BuildingType _buildingType;
+    [SerializeField] private float _pressedTileDistance = 0.03f;
+    [SerializeField] private Vector3 _initialTilePosition;
+
+    public Vector3 InitialTilePosition
+    {
+        get => _initialTilePosition; set => _initialTilePosition = value;
+    }
     public BuildingType BuildingTypeGetter => _buildingType;
     public enum BuildingType
     {
@@ -73,6 +80,7 @@ public class GridTileBase : MonoBehaviour
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _initialSprite = _spriteRenderer.sprite;
+        _initialTilePosition = transform.position;
 
         transform.position = coordinate;
         _tileType = tileType;
@@ -97,7 +105,6 @@ public class GridTileBase : MonoBehaviour
             var animator = GetComponent<Animator>();
             if (animator != null)
             {
-                Debug.Log("Animation jouée");
                 animator.Play("IsometricDiamondAnim", -1, 0f);
             }
         }
@@ -153,12 +160,21 @@ public class GridTileBase : MonoBehaviour
         _highlight.SetActive(false);
     }
 
-    /// <summary>
-    /// Pour le debug
-    /// </summary>
-    private void OnMouseDown()
+    void OnMouseUpAsButton()
     {
         //SetReveal(true);
+        transform.position = _initialTilePosition;
         OnTileClicked?.Invoke(this);
+    }
+
+    private void OnMouseDown()
+    {
+        Debug.Log("OnMouseDown");
+        transform.position = new Vector3(_initialTilePosition.x, _initialTilePosition.y - _pressedTileDistance, _initialTilePosition.z);
+    }
+
+    private void OnMouseUp()
+    {
+        transform.position = _initialTilePosition;
     }
 }

@@ -2080,7 +2080,7 @@ Camera:
   m_GameObject: {fileID: 280130059}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -10145,6 +10145,7 @@ MonoBehaviour:
   _playerVillager: 0
   _isPlacableColor: {r: 0.46902362, g: 1, b: 0.3075471, a: 1}
   _isNotPlacableColor: {r: 1, g: 0.5330188, b: 0.595283, a: 1}
+  vfxPrefab: {fileID: 8771787604329916195, guid: cbe300b366f32b446a79665caa4e8fac, type: 3}
 --- !u!4 &1514572595
 Transform:
   m_ObjectHideFlags: 0

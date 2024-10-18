@@ -3,36 +3,40 @@
   "WorkspaceRootPath": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|c:\\users\\alexandre\\documents\\github\\basic-template\\assets\\scripts\\cameracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cameracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\assets\\scripts\\gridmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gridmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\assets\\scripts\\gridtilebase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gridtilebase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\assets\\scripts\\game manager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\game manager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\assets\\scripts\\costui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\costui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\assets\\scripts\\gridmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gridmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|c:\\users\\alexandre\\documents\\github\\basic-template\\assets\\scripts\\panzoomcamera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\assets\\scripts\\buildingclick.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\buildingclick.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\assets\\scripts\\panzoomcamera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\panzoomcamera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\assets\\scripts\\buildinghover.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\buildinghover.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\assets\\scripts\\cameracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cameracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\assets\\scripts\\howtoplaybutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\howtoplaybutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\assets\\scripts\\gridtilebase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gridtilebase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\assets\\scripts\\costui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\costui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\assets\\scripts\\buildinghover.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\buildinghover.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\assets\\scripts\\resourceuimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -41,14 +45,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\assets\\scripts\\turnmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\turnmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\assets\\scripts\\buildingclick.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\buildingclick.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\assets\\scripts\\gametitlemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gametitlemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -58,7 +54,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -72,14 +68,14 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\PanZoomCamera.cs",
               "ToolTip": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\PanZoomCamera.cs",
               "RelativeToolTip": "Assets\\Scripts\\PanZoomCamera.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAQwBQAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-17T15:35:05.002Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "BuildingHover.cs",
               "DocumentMoniker": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\BuildingHover.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\BuildingHover.cs",
@@ -91,7 +87,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "ResourceUIManager.cs",
               "DocumentMoniker": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\ResourceUIManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\ResourceUIManager.cs",
@@ -103,83 +99,83 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
               "Title": "CameraController.cs",
               "DocumentMoniker": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\CameraController.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\CameraController.cs",
               "ToolTip": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\CameraController.cs",
               "RelativeToolTip": "Assets\\Scripts\\CameraController.cs",
-              "ViewState": "AgIAAC8AAAAAAAAAAAAQwFIAAAAeAAAAAAAAAA==",
+              "ViewState": "AgIAACUAAAAAAAAAAAAuwEYAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-14T20:45:08.673Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-14T20:45:08.673Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Game Manager.cs",
               "DocumentMoniker": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\Game Manager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Game Manager.cs",
               "ToolTip": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\Game Manager.cs",
               "RelativeToolTip": "Assets\\Scripts\\Game Manager.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAAAB0AAAAzAAAAAAAAAA==",
+              "ViewState": "AgIAANYAAAAAAAAAAAAYwOwAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-10T20:12:47.441Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": "GridTileBase.cs",
+              "DocumentMoniker": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\GridTileBase.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GridTileBase.cs",
+              "ToolTip": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\GridTileBase.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GridTileBase.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAEwEEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-10T20:12:47.429Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "GridManager.cs",
               "DocumentMoniker": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\GridManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GridManager.cs",
               "ToolTip": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\GridManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\GridManager.cs",
-              "ViewState": "AgIAADcAAAAAAAAAAAAlwFAAAAAhAAAAAAAAAA==",
+              "ViewState": "AgIAACsAAAAAAAAAAAAiwD4AAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-10T20:55:36.341Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "CostUI.cs",
               "DocumentMoniker": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\CostUI.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\CostUI.cs",
               "ToolTip": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\CostUI.cs",
               "RelativeToolTip": "Assets\\Scripts\\CostUI.cs",
-              "ViewState": "AgIAAC0AAAAAAAAAAAAowEEAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAABMAAAAAAAAAAAAmwEcAAABMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-11T16:47:37.144Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-11T16:47:37.144Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "GridTileBase.cs",
-              "DocumentMoniker": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\GridTileBase.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GridTileBase.cs",
-              "ToolTip": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\GridTileBase.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GridTileBase.cs",
-              "ViewState": "AQIAAIQAAAAAAAAAAAAAAIsAAAAFAAAA",
-              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADtSURBVDhPYxgFCHDh4YX/sQtj/6u3qP9XblL\u002BHzk/8j9UiuHtx7f/VZpVwHxkNggwgohLjy79D18SzmAua86QZJbEwM/Bz3D91XWGCNMIRpAGo34jsGJkwMrMynCn9g5YP0PK0pT/3tO9/3/58gVuMjLA5wImEHH68WkGN3U3Bh4eHoiJJACwAb/\u002B/gI7CRuAeeH3398M8g3ycDayKxjC5oX9D54TjNX5IIDPC2Ann7x78n/E4ggGDw0PhgiDCLBrLj2/xJBhl0HQS3AFe67t\u002BT/lyBSGO2/uMHCxcTHYK9szdAd2kxwmIw8wMAAAESl0qwYO77cAAAAASUVORK5CYII=",
-              "WhenOpened": "2024-08-10T20:12:47.429Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 3,
               "Title": "BuildingClick.cs",
               "DocumentMoniker": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\BuildingClick.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\BuildingClick.cs",
               "ToolTip": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\BuildingClick.cs",
               "RelativeToolTip": "Assets\\Scripts\\BuildingClick.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAA/AAAA",
-              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADtSURBVDhPYxgFCHDh4YX/sQtj/6u3qP9XblL\u002BHzk/8j9UiuHtx7f/VZpVwHxkNggwgohLjy79D18SzmAua86QZJbEwM/Bz3D91XWGCNMIRpAGo34jsGJkwMrMynCn9g5YP0PK0pT/3tO9/3/58gVuMjLA5wImEHH68WkGN3U3Bh4eHoiJJACwAb/\u002B/gI7CRuAeeH3398M8g3ycDayKxjC5oX9D54TjNX5IIDPC2Ann7x78n/E4ggGDw0PhgiDCLBrLj2/xJBhl0HQS3AFe67t\u002BT/lyBSGO2/uMHCxcTHYK9szdAd2kxwmIw8wMAAAESl0qwYO77cAAAAASUVORK5CYII=",
-              "WhenOpened": "2024-08-10T20:12:47.438Z"
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-10T20:12:47.438Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "TurnManager.cs",
               "DocumentMoniker": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\TurnManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\TurnManager.cs",
@@ -191,26 +187,14 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "GameTitleManager.cs",
-              "DocumentMoniker": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\GameTitleManager.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GameTitleManager.cs",
-              "ToolTip": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\GameTitleManager.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GameTitleManager.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAvAAAA",
-              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADtSURBVDhPYxgFCHDh4YX/sQtj/6u3qP9XblL\u002BHzk/8j9UiuHtx7f/VZpVwHxkNggwgohLjy79D18SzmAua86QZJbEwM/Bz3D91XWGCNMIRpAGo34jsGJkwMrMynCn9g5YP0PK0pT/3tO9/3/58gVuMjLA5wImEHH68WkGN3U3Bh4eHoiJJACwAb/\u002B/gI7CRuAeeH3398M8g3ycDayKxjC5oX9D54TjNX5IIDPC2Ann7x78n/E4ggGDw0PhgiDCLBrLj2/xJBhl0HQS3AFe67t\u002BT/lyBSGO2/uMHCxcTHYK9szdAd2kxwmIw8wMAAAESl0qwYO77cAAAAASUVORK5CYII=",
-              "WhenOpened": "2024-08-14T20:45:08.672Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 6,
               "Title": "HowToPlayButton.cs",
               "DocumentMoniker": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\HowToPlayButton.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\HowToPlayButton.cs",
               "ToolTip": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\HowToPlayButton.cs",
               "RelativeToolTip": "Assets\\Scripts\\HowToPlayButton.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABcAAAAMAAAA",
-              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADtSURBVDhPYxgFCHDh4YX/sQtj/6u3qP9XblL\u002BHzk/8j9UiuHtx7f/VZpVwHxkNggwgohLjy79D18SzmAua86QZJbEwM/Bz3D91XWGCNMIRpAGo34jsGJkwMrMynCn9g5YP0PK0pT/3tO9/3/58gVuMjLA5wImEHH68WkGN3U3Bh4eHoiJJACwAb/\u002B/gI7CRuAeeH3398M8g3ycDayKxjC5oX9D54TjNX5IIDPC2Ann7x78n/E4ggGDw0PhgiDCLBrLj2/xJBhl0HQS3AFe67t\u002BT/lyBSGO2/uMHCxcTHYK9szdAd2kxwmIw8wMAAAESl0qwYO77cAAAAASUVORK5CYII=",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-14T20:45:09.225Z"
             }
           ]

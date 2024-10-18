@@ -2,11 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
+using UnityEngine.VFX;
 using static GridTileBase;
 using Random = UnityEngine.Random;
 
@@ -33,6 +35,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Color _isPlacableColor;
     [SerializeField] private Color _isNotPlacableColor;
+
+    [SerializeField] public VisualEffect vfxPrefab;
 
     private BuildingClick _selectedBuilding;
     private (int woodCost, int stoneCost, int villagerCost) _buildingCosts;
@@ -196,7 +200,8 @@ public class GameManager : MonoBehaviour
         DeductPlayerResources();
         GenerateResourcesOnPlacement(newTile);
         ReplaceTile(tile, newTile);
-        
+        PlayVFX(tile.transform.position);
+
         if (!_isCastlePlace)
         {
             PlaceCastleBeginHelp(tile);
@@ -258,7 +263,10 @@ public class GameManager : MonoBehaviour
     {
         GameObject newTile = Instantiate(_prefabToInstantiate, tile.transform.position, Quaternion.identity, tile.transform.parent);
 
+        // On reattribue la position initial de la nouvelle tuile en récupérant l'ancienne
         GridTileBase newTileGridTileBase = newTile.GetComponentInChildren<GridTileBase>();
+        newTileGridTileBase.InitialTilePosition = tile.InitialTilePosition;
+
         if (newTileGridTileBase != null)
         {
             _placedBuildings.Add(newTileGridTileBase);
@@ -446,5 +454,12 @@ public class GameManager : MonoBehaviour
         _playerStone += totalStoneProduction;
 
         UpdateResourceUI();
+    }
+
+    public void PlayVFX(Vector3 position)
+    {
+        VisualEffect vfxInstance = Instantiate(vfxPrefab, position, Quaternion.identity);
+
+        Destroy(vfxInstance.gameObject, 5f);
     }
 }
