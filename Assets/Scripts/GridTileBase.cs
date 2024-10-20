@@ -61,13 +61,22 @@ public class GridTileBase : MonoBehaviour
     public void SetTileType(TileType newTileType, GameObject newPrefab)
     {
         _tileType = newTileType;
-        GetComponent<SpriteRenderer>().sprite = newPrefab.GetComponent<SpriteRenderer>().sprite;
+        //GetComponent<SpriteRenderer>().sprite = newPrefab.GetComponent<SpriteRenderer>().sprite;
+
+        Transform childTransform = newPrefab.transform.Find("Sprite");
+        if (childTransform != null)
+        {
+            var component = childTransform.GetComponent<SpriteRenderer>();
+            _spriteRenderer.sprite = component.sprite;
+        }
     }
 
     private Color _revealedColor = Color.white;
     private Color _hiddenColor = Color.black;
 
-    private SpriteRenderer _spriteRenderer;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] Animator animator;
+
     private bool _isReveal;
     public bool IsReveal => _isReveal;
 
@@ -78,7 +87,7 @@ public class GridTileBase : MonoBehaviour
     public static event Action<GridTileBase> OnTileHover;
     public void Init(Vector3 coordinate, TileType tileType)
     {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        //_spriteRenderer = GetComponent<SpriteRenderer>();
         _initialSprite = _spriteRenderer.sprite;
         _initialTilePosition = transform.position;
 
@@ -95,14 +104,11 @@ public class GridTileBase : MonoBehaviour
             _isReveal = isReveal;
             UpdateAppearance();
 
-            // Déclenche l'événement lorsqu'une case est révélée
             if (_isReveal)
             {
                 OnTileRevealed?.Invoke(this);
             }
 
-            // On joue l'animation des tuiles qu'on révèle
-            var animator = GetComponent<Animator>();
             if (animator != null)
             {
                 animator.Play("IsometricDiamondAnim", -1, 0f);

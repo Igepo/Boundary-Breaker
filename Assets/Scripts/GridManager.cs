@@ -67,16 +67,16 @@ public class GridManager : MonoBehaviour
             return;
         }
 
-        var tileRendererBound = tile.GetComponent<Renderer>().bounds;
-        if (!boundsInitialized)
-        {
-            bounds = new Bounds(tileRendererBound.center, tileRendererBound.size);
-            boundsInitialized = true;
-        }
-        else
-        {
-            bounds.Encapsulate(tileRendererBound);
-        }
+        //var tileRendererBound = tile.GetComponent<Renderer>().bounds;
+        //if (!boundsInitialized)
+        //{
+        //    bounds = new Bounds(tileRendererBound.center, tileRendererBound.size);
+        //    boundsInitialized = true;
+        //}
+        //else
+        //{
+        //    bounds.Encapsulate(tileRendererBound);
+        //}
 
         if (!IsCastlePlaced)
         {
@@ -177,10 +177,11 @@ public class GridManager : MonoBehaviour
             }
             sortingGroup.sortingOrder = -(int)(position.y * 100);
 
-            mapBounds.Encapsulate(spawned.GetComponent<Renderer>().bounds);
+            //mapBounds.Encapsulate(spawned.GetComponent<Renderer>().bounds);
             _tileDictionary[position] = spawned;
 
-            var renderer = spawned.GetComponent<Renderer>();
+            Transform childTransform = spawned.transform.Find("Sprite");
+            var renderer = childTransform.GetComponent<Renderer>();
             if (renderer != null)
             {
                 renderer.enabled = false;
@@ -206,16 +207,15 @@ public class GridManager : MonoBehaviour
         {
             foreach (var tile in tileGroup)
             {
-                var renderer = tile.GetComponent<Renderer>();
+                Transform childTransform = tile.transform.Find("Sprite");
+                var renderer = childTransform.GetComponent<Renderer>();
                 if (renderer != null)
                 {
                     renderer.enabled = true;
 
-                    var animator = tile.GetComponent<Animator>();
-                    if (animator != null)
-                    {
-                        animator.Play("IsometricDiamondAnim");
-                    }
+                    //var animator = tile.GetComponent<Animator>();
+                    Animator animator = childTransform.GetComponent<Animator>();
+                    animator?.Play("IsometricDiamondAnim");
                 }
             }
 
