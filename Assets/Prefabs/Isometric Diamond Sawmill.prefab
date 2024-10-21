@@ -163,6 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c66d924325ddc654bb26be71758bd38d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 2894391366906190759}
   _highlight: {fileID: 844874172847747090}
   _hiddenSprite: {fileID: 0}
   _woodProduction: 10
@@ -175,6 +176,8 @@ MonoBehaviour:
   _pressedTileDistance: 0.03
   _initialTilePosition: {x: 0, y: 0, z: 0}
   _tileRevealType: 1
+  animator: {fileID: 0}
+  _initialSpriteColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!60 &3511190613896508084
 PolygonCollider2D:
   m_ObjectHideFlags: 0

@@ -112,7 +112,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.0083, y: -0.0818, z: 0}
-  m_LocalScale: {x: 0.76623577, y: 0.50427526, z: 1}
+  m_LocalScale: {x: 0.78242815, y: 0.5007884, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5009343298148992397}
@@ -237,8 +237,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c66d924325ddc654bb26be71758bd38d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 4314076862260146717}
   _highlight: {fileID: 2505222286063134709}
-  _hiddenSprite: {fileID: 21300000, guid: 4538e9bc7f63e614abab416187ec8825, type: 3}
+  _hiddenSprite: {fileID: 21300000, guid: fe32612ab909e174fa7a106a2bf2d506, type: 3}
   _woodProduction: 0
   _stoneProduction: 0
   _villagerProduction: 0
@@ -249,7 +250,6 @@ MonoBehaviour:
   _pressedTileDistance: 0.03
   _initialTilePosition: {x: 0, y: 0, z: 0}
   _tileRevealType: 0
-  _spriteRenderer: {fileID: 4314076862260146717}
   animator: {fileID: 2592358014470875477}
 --- !u!60 &4315960740187898483
 PolygonCollider2D:

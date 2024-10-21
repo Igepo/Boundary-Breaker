@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     private bool _isCastlePlace = false;
     private bool _isPlacable;
 
-    [SerializeField] private int _playerWood = 100; // Exemples de ressources initiales
+    [SerializeField] private int _playerWood = 100;
     [SerializeField] private int _playerStone = 50;
     [SerializeField] private int _playerVillager = 0;
 
@@ -47,11 +47,11 @@ public class GameManager : MonoBehaviour
     private int _revealedTiles = 0;
     private bool _shouldMirrorNextBuilding = false;
 
+
     public static event Action<GameManager> OnTurnEnded;
 
     private void OnEnable()
     {
-        // S'abonner à l'événement de révélation des tuiles
         GridTileBase.OnTileClicked += HandleTileClicked;
         BuildingClick.OnBuildingClicked += HandleBuildingClick;
         GridTileBase.OnTileHover += HandleTileHover;
@@ -61,7 +61,6 @@ public class GameManager : MonoBehaviour
 
     private void OnDisable()
     {
-        // Se désabonner de l'événement lorsqu'il n'est plus nécessaire
         GridTileBase.OnTileClicked -= HandleTileClicked;
         BuildingClick.OnBuildingClicked -= HandleBuildingClick;
         GridTileBase.OnTileHover -= HandleTileHover;
@@ -90,15 +89,75 @@ public class GameManager : MonoBehaviour
         UpdateResourceUI();
     }
 
+    private List<GridTileBase> adjacentTilesPreview = new List<GridTileBase>();
+    private Dictionary<GridTileBase, Coroutine> activeCoroutines = new Dictionary<GridTileBase, Coroutine>();
+    private void StartColorAnimation(GridTileBase tile, Color initialColor, Color targetColor, float speed)
+    {
+        if (activeCoroutines.ContainsKey(tile))
+        {
+            StopCoroutine(activeCoroutines[tile]);
+            activeCoroutines.Remove(tile);
+        }
+
+        Coroutine colorCoroutine = StartCoroutine(AnimateTileColorPingPong(tile, initialColor, targetColor, speed));
+        activeCoroutines.Add(tile, colorCoroutine);
+    }
+    private void StopAllColorAnimations()
+    {
+        foreach (var kvp in activeCoroutines)
+        {
+            StopCoroutine(kvp.Value);
+        }
+
+        activeCoroutines.Clear();
+    }
+
+    private void RestoreInitialTileColors()
+    {
+        StopAllColorAnimations();
+        foreach (var adjacentTile in adjacentTilesPreview)
+        {
+            if (adjacentTile != null)
+            {
+                var adjacentTileGridTileBase = adjacentTile.GetComponent<GridTileBase>();
+                if (!adjacentTile.IsReveal)
+                {
+                    adjacentTileGridTileBase.spriteRenderer.color = Color.black;
+                }
+            }
+        }
+    }
+
     private void HandleTileHover(GridTileBase tile)
     {
         if (_instantiatedFloatingObject != null)
         {
-            
-
             var newTileSpriteRenderer = _instantiatedFloatingObject.GetComponentInChildren<SpriteRenderer>();
 
             var floatingObjectGridTileBase = _instantiatedFloatingObject.GetComponentInChildren<GridTileBase>();
+
+            var newTileGridTileBaseRevealType = floatingObjectGridTileBase.TileRevealType;
+            if (floatingObjectGridTileBase != null)
+            {
+                RestoreInitialTileColors();
+
+                var coord = new Vector2(tile.transform.position.x, tile.transform.position.y);
+                var gridManager = FindObjectOfType<GridManager>();
+                adjacentTilesPreview = gridManager.GetAdjacentTiles(coord, newTileGridTileBaseRevealType);
+
+                foreach (var adjacentTile in adjacentTilesPreview)
+                {
+                    if (adjacentTile != null)
+                    {
+                        var adjacentTileGridTileBase = adjacentTile.GetComponent<GridTileBase>();
+                        if (!adjacentTile.IsReveal)
+                        {
+                            StartColorAnimation(adjacentTileGridTileBase, adjacentTileGridTileBase.spriteRenderer.color, Color.gray, 1f);
+                        }
+                    }
+                }
+            }
+
             if (_isCastlePlace)
             {
                 _isPlacable = tile.IsReveal && IsBuildingAllowedOnTile(tile.TileTypeGetter, floatingObjectGridTileBase.BuildingTypeGetter);
@@ -106,6 +165,19 @@ public class GameManager : MonoBehaviour
                 Color colorPlacement = _isPlacable ? _isPlacableColor : _isNotPlacableColor;
                 newTileSpriteRenderer.color = colorPlacement;
             }
+        }
+    }
+
+    private IEnumerator AnimateTileColorPingPong(GridTileBase gridTileBase, Color baseColor, Color targetColor, float speed)
+    {
+        while (true)
+        {
+            float lerpFactor = Mathf.PingPong(Time.time * speed, 1f);
+
+            if (gridTileBase.spriteRenderer != null)
+                gridTileBase.spriteRenderer.color = Color.Lerp(baseColor, targetColor, lerpFactor);
+
+            yield return null;
         }
     }
     private bool IsBuildingAllowedOnTile(TileType tileType, BuildingType buildingType)
@@ -184,6 +256,8 @@ public class GameManager : MonoBehaviour
     // Quand on clique sur une tuile
     private void HandleTileClicked(GridTileBase tile)
     {
+        StopAllColorAnimations();
+
         var canPlay = _gridManager.canPlay;
         if (!canPlay)
             return;
@@ -414,14 +488,13 @@ public class GameManager : MonoBehaviour
 
     private void CancelBuildingSelection()
     {
+        RestoreInitialTileColors();
         if (_instantiatedFloatingObject != null)
         {
             Destroy(_instantiatedFloatingObject);
             _instantiatedFloatingObject = null;
             _selectedBuilding = null;
             _prefabToInstantiate = null;
-
-            Debug.Log("Sélection du bâtiment annulée.");
         }
     }
 

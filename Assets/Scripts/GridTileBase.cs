@@ -6,6 +6,8 @@ using UnityEngine.EventSystems;
 
 public class GridTileBase : MonoBehaviour
 {
+    public SpriteRenderer spriteRenderer;
+
     [SerializeField] private GameObject _highlight;
     [SerializeField] private Sprite _hiddenSprite;
 
@@ -58,6 +60,7 @@ public class GridTileBase : MonoBehaviour
     }
     private TileType _tileType;
     public TileType TileTypeGetter => _tileType;
+
     public void SetTileType(TileType newTileType, GameObject newPrefab)
     {
         _tileType = newTileType;
@@ -67,28 +70,33 @@ public class GridTileBase : MonoBehaviour
         if (childTransform != null)
         {
             var component = childTransform.GetComponent<SpriteRenderer>();
-            _spriteRenderer.sprite = component.sprite;
+            spriteRenderer.sprite = component.sprite;
         }
     }
 
     private Color _revealedColor = Color.white;
     private Color _hiddenColor = Color.black;
 
-    [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] Animator animator;
 
     private bool _isReveal;
     public bool IsReveal => _isReveal;
 
     private Sprite _initialSprite;
+    [SerializeField] private Color _initialSpriteColor;
 
     public static event Action<GridTileBase> OnTileRevealed;
     public static event Action<GridTileBase> OnTileClicked;
     public static event Action<GridTileBase> OnTileHover;
+    private void Start()
+    {
+        _initialSpriteColor = spriteRenderer.color;
+        //Debug.Log($"Initial Color: {_initialSpriteColor}");
+    }
     public void Init(Vector3 coordinate, TileType tileType)
     {
         //_spriteRenderer = GetComponent<SpriteRenderer>();
-        _initialSprite = _spriteRenderer.sprite;
+        _initialSprite = spriteRenderer.sprite;
         _initialTilePosition = transform.position;
 
         transform.position = coordinate;
@@ -118,19 +126,19 @@ public class GridTileBase : MonoBehaviour
 
     private void UpdateAppearance()
     {
-        if (_spriteRenderer == null) return;
+        if (spriteRenderer == null) return;
 
         if (!_isReveal)
         {
-            _spriteRenderer.color = _hiddenColor;
-            _spriteRenderer.sprite = _hiddenSprite;
+            spriteRenderer.color = _hiddenColor;
+            spriteRenderer.sprite = _hiddenSprite;
         }
         else
         {
-            _spriteRenderer.color = _revealedColor;
-            _spriteRenderer.sprite = _initialSprite;
+            spriteRenderer.color = _revealedColor;
+            spriteRenderer.sprite = _initialSprite;
         }
-        _spriteRenderer.color = _isReveal ? _revealedColor : _hiddenColor;
+        spriteRenderer.color = _isReveal ? _revealedColor : _hiddenColor;
     }
     public (int woodCost, int stoneCost, int villagerCost) GetCosts()
     {
@@ -164,6 +172,7 @@ public class GridTileBase : MonoBehaviour
     void OnMouseExit()
     {
         _highlight.SetActive(false);
+        //spriteRenderer.color = _initialSpriteColor;
     }
 
     void OnMouseUpAsButton()
@@ -175,7 +184,6 @@ public class GridTileBase : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Debug.Log("OnMouseDown");
         transform.position = new Vector3(_initialTilePosition.x, _initialTilePosition.y - _pressedTileDistance, _initialTilePosition.z);
     }
 

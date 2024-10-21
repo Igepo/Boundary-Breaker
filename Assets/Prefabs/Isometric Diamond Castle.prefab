@@ -153,6 +153,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5368970906082762163, guid: 2ab76a0f027c6c14fa0ff31722bc54e9, type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 3841892045675218358}
+    - target: {fileID: 5368970906082762163, guid: 2ab76a0f027c6c14fa0ff31722bc54e9, type: 3}
       propertyPath: _tileRevealType
       value: 2
       objectReference: {fileID: 0}
