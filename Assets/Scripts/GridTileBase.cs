@@ -68,11 +68,21 @@ public class GridTileBase : MonoBehaviour
         _tileType = newTileType;
         //GetComponent<SpriteRenderer>().sprite = newPrefab.GetComponent<SpriteRenderer>().sprite;
 
-        Transform childTransform = newPrefab.transform.Find("Sprite");
-        if (childTransform != null)
+        Transform newPrefabTransform = newPrefab.transform;
+        if (newPrefabTransform != null)
         {
-            var component = childTransform.GetComponent<SpriteRenderer>();
+            var component = newPrefabTransform.Find("Sprite").GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = component.sprite;
+        }
+
+        Transform propsTransform = newPrefabTransform.Find("Props");
+        if (propsTransform != null)
+        {
+            GameObject propsInstance = Instantiate(propsTransform.gameObject, transform);
+
+            propsInstance.transform.localPosition = propsTransform.localPosition;
+            propsInstance.transform.localRotation = propsTransform.localRotation;
+            propsInstance.transform.localScale = propsTransform.localScale;
         }
     }
 
@@ -146,6 +156,13 @@ public class GridTileBase : MonoBehaviour
             spriteRenderer.color = _revealedColor;
             spriteRenderer.sprite = _initialSprite;
         }
+
+        Transform props = transform.Find("Props"); // Pour cacher les arbres des forets
+        if (props != null)
+        {
+            props.gameObject.SetActive(_isReveal);
+        }
+
         spriteRenderer.color = _isReveal ? _revealedColor : _hiddenColor;
     }
     public (int woodCost, int stoneCost, int villagerCost) GetCosts()
