@@ -132,6 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 6216662023326089151}
+  spriteList: []
   _highlight: {fileID: 2157791177013376050}
   _hiddenSprite: {fileID: 0}
   _woodProduction: 0
@@ -145,7 +146,7 @@ MonoBehaviour:
   _initialTilePosition: {x: 0, y: 0, z: 0}
   _tileRevealType: 3
   animator: {fileID: 0}
-  _initialSpriteColor: {r: 0, g: 0, b: 0, a: 0}
+  _initialSprite: {fileID: 0}
 --- !u!60 &5087632399844376862
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -178,7 +179,7 @@ PolygonCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.055}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}

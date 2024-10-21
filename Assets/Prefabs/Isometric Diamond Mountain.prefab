@@ -48,6 +48,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 617163067153726977}
+  spriteList:
+  - {fileID: 21300000, guid: fba24a59f1e40f245b94b5b827229a93, type: 3}
+  - {fileID: 21300000, guid: abe7a59d0acc1ac4eb87d20e0df1f022, type: 3}
+  - {fileID: 21300000, guid: f12c08bb5375711489244c3bb843079d, type: 3}
+  - {fileID: 21300000, guid: 71a0f15ad8361404588a5a3e52c99065, type: 3}
   _highlight: {fileID: 8956526179409506025}
   _hiddenSprite: {fileID: 21300000, guid: fe32612ab909e174fa7a106a2bf2d506, type: 3}
   _woodProduction: 0
@@ -61,7 +66,7 @@ MonoBehaviour:
   _initialTilePosition: {x: 0, y: 0, z: 0}
   _tileRevealType: 0
   animator: {fileID: 1206354123188987864}
-  _initialSpriteColor: {r: 0, g: 0, b: 0, a: 0}
+  _initialSprite: {fileID: 0}
 --- !u!60 &5415314295511146644
 PolygonCollider2D:
   m_ObjectHideFlags: 0

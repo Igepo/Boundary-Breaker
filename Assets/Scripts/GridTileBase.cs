@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Random = UnityEngine.Random;
 
 public class GridTileBase : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer;
+    [SerializeField] private List<Sprite> spriteList = new List<Sprite>();
 
     [SerializeField] private GameObject _highlight;
     [SerializeField] private Sprite _hiddenSprite;
@@ -82,21 +84,27 @@ public class GridTileBase : MonoBehaviour
     private bool _isReveal;
     public bool IsReveal => _isReveal;
 
-    private Sprite _initialSprite;
-    [SerializeField] private Color _initialSpriteColor;
+    [SerializeField] private Sprite _initialSprite;
 
     public static event Action<GridTileBase> OnTileRevealed;
     public static event Action<GridTileBase> OnTileClicked;
     public static event Action<GridTileBase> OnTileHover;
     private void Start()
     {
-        _initialSpriteColor = spriteRenderer.color;
-        //Debug.Log($"Initial Color: {_initialSpriteColor}");
+        //if (spriteList?.Count > 0)
+        //    spriteRenderer.sprite = spriteList[Random.Range(0, spriteList.Count)];
     }
+
     public void Init(Vector3 coordinate, TileType tileType)
     {
         //_spriteRenderer = GetComponent<SpriteRenderer>();
-        _initialSprite = spriteRenderer.sprite;
+        if (spriteList?.Count > 0)
+        {
+            _initialSprite = spriteList[Random.Range(0, spriteList.Count)];
+        }
+        else
+            _initialSprite = spriteRenderer.sprite;
+
         _initialTilePosition = transform.position;
 
         transform.position = coordinate;

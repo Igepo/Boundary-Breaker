@@ -3,7 +3,7 @@
   "WorkspaceRootPath": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\assets\\scripts\\gridtilebase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|c:\\users\\alexandre\\documents\\github\\basic-template\\assets\\scripts\\gridtilebase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gridtilebase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -15,12 +15,12 @@
       "RelativeMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gridmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\assets\\scripts\\buildingclick.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\buildingclick.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\assets\\scripts\\buildinghover.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\buildinghover.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\assets\\scripts\\panzoomcamera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\panzoomcamera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\assets\\scripts\\buildingclick.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\buildingclick.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\assets\\scripts\\cameracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -33,10 +33,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\assets\\scripts\\costui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\costui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\assets\\scripts\\buildinghover.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\buildinghover.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2BA43F65-3B18-2FB7-7ED5-20220AE46752}|Assembly-CSharp.csproj|C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\assets\\scripts\\resourceuimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -54,7 +50,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -62,20 +58,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "PanZoomCamera.cs",
-              "DocumentMoniker": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\PanZoomCamera.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\PanZoomCamera.cs",
-              "ToolTip": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\PanZoomCamera.cs",
-              "RelativeToolTip": "Assets\\Scripts\\PanZoomCamera.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-17T15:35:05.002Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 3,
               "Title": "BuildingHover.cs",
               "DocumentMoniker": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\BuildingHover.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\BuildingHover.cs",
@@ -87,7 +70,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 8,
               "Title": "ResourceUIManager.cs",
               "DocumentMoniker": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\ResourceUIManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\ResourceUIManager.cs",
@@ -117,10 +100,9 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\Game Manager.cs",
               "ToolTip": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\Game Manager.cs",
               "RelativeToolTip": "Assets\\Scripts\\Game Manager.cs",
-              "ViewState": "AgIAANYAAAAAAAAAAAAYwOwAAAApAAAAAAAAAA==",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAAPgBAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-10T20:12:47.441Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-10T20:12:47.441Z"
             },
             {
               "$type": "Document",
@@ -130,7 +112,7 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\GridTileBase.cs",
               "ToolTip": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\GridTileBase.cs",
               "RelativeToolTip": "Assets\\Scripts\\GridTileBase.cs",
-              "ViewState": "AgIAACwAAAAAAAAAAAAEwEEAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAAwFYAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-10T20:12:47.429Z",
               "EditorCaption": ""
@@ -143,10 +125,9 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\GridManager.cs",
               "ToolTip": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\GridManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\GridManager.cs",
-              "ViewState": "AgIAACsAAAAAAAAAAAAiwD4AAAAjAAAAAAAAAA==",
+              "ViewState": "AgIAAJoAAAAAAAAAAAAtwKoAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-10T20:55:36.341Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-10T20:55:36.341Z"
             },
             {
               "$type": "Document",
@@ -162,7 +143,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "BuildingClick.cs",
               "DocumentMoniker": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\BuildingClick.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\BuildingClick.cs",
@@ -170,12 +151,11 @@
               "RelativeToolTip": "Assets\\Scripts\\BuildingClick.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAA/AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-10T20:12:47.438Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-10T20:12:47.438Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 9,
               "Title": "TurnManager.cs",
               "DocumentMoniker": "C:\\Users\\Alexandre\\Documents\\GitHub\\Basic-Template\\Assets\\Scripts\\TurnManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\TurnManager.cs",

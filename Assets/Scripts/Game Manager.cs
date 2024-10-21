@@ -46,9 +46,14 @@ public class GameManager : MonoBehaviour
     private int _totalTiles;
     private int _revealedTiles = 0;
     private bool _shouldMirrorNextBuilding = false;
-
+    private TutorialManager tutorialManager;
 
     public static event Action<GameManager> OnTurnEnded;
+
+    private void Awake()
+    {
+        tutorialManager = FindObjectOfType<TutorialManager>();
+    }
 
     private void OnEnable()
     {
@@ -278,13 +283,44 @@ public class GameManager : MonoBehaviour
 
         if (!_isCastlePlace)
         {
+            tutorialManager.StepUp();
             PlaceCastleBeginHelp(tile);
             _isCastlePlace = true;
         }
+        //TutorialManager(newTile);
 
         _shouldMirrorNextBuilding = !_shouldMirrorNextBuilding;
     }
 
+    private bool isTurnSkip;
+    // Gestion du tutoriel
+    private void TutorialManager(GameObject newTile = null)
+    {
+        var tile = newTile.GetComponentInChildren<GridTileBase>();
+        Debug.Log("tutorialManager.step : " + tutorialManager.step);
+        Debug.Log("tile.BuildingTypeGetter : " + tile.BuildingTypeGetter);
+
+        if (tile.BuildingTypeGetter == BuildingType.Mine && tutorialManager.step == 1)
+        {
+            tutorialManager.StepUp();
+        }
+        if (tile.BuildingTypeGetter == BuildingType.Sawmill && tutorialManager.step == 2)
+        {
+            tutorialManager.StepUp();
+        }
+        if (tutorialManager.step == 3 && isTurnSkip) // Quand on passe au jour suivant
+        {
+            tutorialManager.StepUp();
+        }
+        if (tile.BuildingTypeGetter == BuildingType.House && tutorialManager.step == 4)
+        {
+            tutorialManager.StepUp();
+        }
+        if (tile.BuildingTypeGetter == BuildingType.WatchTower && tutorialManager.step == 5)
+        {
+            tutorialManager.StepUp(); // Tuto fini
+        }
+    }
     private void PlaceCastleBeginHelp(GridTileBase tile)
     {
         _gridManager.IsCastlePlaced = true;
@@ -509,6 +545,8 @@ public class GameManager : MonoBehaviour
             CalculateResourceProduction();
             OnTurnEnded?.Invoke(this);
             SoundManager.Instance.PlaySound("EndTurn");
+            //TutorialManager();
+            isTurnSkip = true;
             //TurnManager.Instance.EndTurn();
         }
     }

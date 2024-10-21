@@ -18,5 +18,6 @@ public class BuildingClick : MonoBehaviour
     public void OnClicked()
     {
         OnBuildingClicked?.Invoke(this);
+        Debug.Log("ButtonClicked");
     }
 }

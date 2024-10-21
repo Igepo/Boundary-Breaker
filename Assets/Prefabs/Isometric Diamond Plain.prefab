@@ -154,6 +154,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 3788357266561611495}
+  spriteList:
+  - {fileID: 21300000, guid: 4538e9bc7f63e614abab416187ec8825, type: 3}
+  - {fileID: 21300000, guid: 0b069bc620ce2c447a74b11a409b560c, type: 3}
+  - {fileID: 21300000, guid: 686666246fe9fae4e942c479f1fbdcd1, type: 3}
   _highlight: {fileID: 8956526179409506025}
   _hiddenSprite: {fileID: 21300000, guid: fe32612ab909e174fa7a106a2bf2d506, type: 3}
   _woodProduction: 0

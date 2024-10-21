@@ -53,17 +53,17 @@ public class ResourceUIManager : MonoBehaviour
     {
         if (woodText != null)
         {
-            woodText.text = "Wood: " + playerWood;
+            woodText.text = playerWood.ToString();
         }
 
         if (stoneText != null)
         {
-            stoneText.text = "Stone: " + playerStone;
+            stoneText.text = playerStone.ToString();
         }
 
         if (villagerText != null)
         {
-            villagerText.text = "Villager: " + playerVillager;
+            villagerText.text = playerVillager.ToString();
         }
 
         if (turnText != null)

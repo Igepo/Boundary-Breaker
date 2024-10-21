@@ -168,6 +168,10 @@ PrefabInstance:
       propertyPath: _stoneProduction
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 5368970906082762163, guid: 2ab76a0f027c6c14fa0ff31722bc54e9, type: 3}
+      propertyPath: spriteList.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5983175819408116920, guid: 2ab76a0f027c6c14fa0ff31722bc54e9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
