@@ -261,7 +261,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3487104605887484256}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: ba2bb727f61a79444ad315d5398fc35f, type: 2}
   m_CullingMode: 0
@@ -572,6 +572,7 @@ GameObject:
   - component: {fileID: 5009343298148992397}
   - component: {fileID: 4403235965020708356}
   - component: {fileID: 4315960740187898483}
+  - component: {fileID: 8896119029917596979}
   m_Layer: 0
   m_Name: Isometric Diamond Forest
   m_TagString: Untagged
@@ -623,7 +624,7 @@ MonoBehaviour:
   _pressedTileDistance: 0.03
   _initialTilePosition: {x: 0, y: 0, z: 0}
   _tileRevealType: 0
-  animator: {fileID: 2592358014470875477}
+  animator: {fileID: 8896119029917596979}
   _initialSprite: {fileID: 0}
 --- !u!60 &4315960740187898483
 PolygonCollider2D:
@@ -674,3 +675,24 @@ PolygonCollider2D:
       - {x: 0, y: -0.25}
       - {x: 0.5, y: 0}
   m_UseDelaunayMesh: 0
+--- !u!95 &8896119029917596979
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9128731437903289155}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d47beef6e50fb3540b792356212aea24, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
